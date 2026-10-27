@@ -237,6 +237,19 @@
     combos {
         compatible = "zmk,combos";
 
+        // Combos execute on the central, so these left-hand keys recover the right half.
+        combo_left_bootloader {
+            timeout-ms = <50>;
+            key-positions = <37 38>;
+            bindings = <&bootloader>;
+            layers = <5 7>;
+        };
+        combo_left_reset {
+            timeout-ms = <50>;
+            key-positions = <39 40>;
+            bindings = <&sys_reset>;
+            layers = <5 7>;
+        };
         // Keep Fn1 Tab management access reachable even with a saved runtime keymap.
         combo_fn1_manage {
             timeout-ms = <50>;
