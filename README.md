@@ -20,11 +20,12 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 
 - Sofle layout adapted to 54 keys, with the middle column removed.
 - Left thumbs: Option, Space/Command, Fn1/Escape. Right thumbs: B/Control, Space/Fn2, right Command.
-- Space/Command uses balanced hold-tap at 200 ms. X and comma can be held for Option at 350 ms.
+- Space/Command uses balanced hold-tap at 200 ms. X can be held for Control and comma for right Option, both at 350 ms.
 - BLE profile 1 selects the Windows modifier variant; default/USB uses Mac modifiers.
 - Sofle combos, macros and window-management layers are retained.
-- Right trackball movement enables AUTO MOUSE for 500 ms; S/D/F become right/middle/left click.
-- Pointer multiplier: 1.75. Left scrolling uses the personal 0.4 multiplier after the peripheral's 1/4 scaler.
+- Right trackball movement enables AUTO MOUSE for 1000 ms; S/D/F become right/middle/left click, and the left Space/Command and Fn1/Escape thumbs become right/left click.
+- On the Fn2 layer, the left Space/Command thumb is Shift.
+- Pointer multiplier: 1.75. Left scrolling uses a 1/5 multiplier after the peripheral's 1/4 scaler.
 - On Manage layers, Z+X enters the right central's bootloader; C+V restarts the right central.
 
 The initial four-layer device keymap is preserved separately in the `codex/crosses-initial-keymap-20261027` branch. It has not been applied to the working keyboard.
@@ -36,6 +37,12 @@ The application images actually deployed for the verified baseline have these SH
 ```text
 d9b915746aa900d84058b54c02de8e0dadd6c0c72fab99ff5afbdd837c27b905  crosses_54_right.uf2
 dda755c72c0449ac8c2eee41ce06be9f2e9e2d460daf566fa7ef2e1a86464c38  crosses_54_left.uf2
+```
+
+The keymap tweaks above were then flashed to the right half only (commit `7c86c69`, [Actions run 40511391902](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40511391902)); the left image is unchanged:
+
+```text
+9578d4405d36819c9f3c4c5b7c8a9a045546aeb261ac08787d7f522598753883  crosses_54_right.uf2
 ```
 
 Build through GitHub Actions and use the file matching each half. Bluetooth bonds and saved Studio overrides live in device storage; this repository contains firmware sources and the compiled keymap.
