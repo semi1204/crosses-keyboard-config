@@ -30,9 +30,9 @@
     input-processors = <&zip_xy_scaler 7 4>, <&zip_temp_layer AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
 };
 
-// Left ball = scroll: already /4 on the left half, x0.4 more here (stock felt too fast).
+// Left ball = scroll: already /4 on the left half, x1/3 more here (stock felt too fast).
 &trackball_peripheral_listener {
-    input-processors = <&zip_scroll_scaler 2 5>;
+    input-processors = <&zip_scroll_scaler 1 3>;
 };
 
 / {
