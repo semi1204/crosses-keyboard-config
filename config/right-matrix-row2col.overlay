@@ -25,3 +25,7 @@
 	   , <&pro_micro  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
 	   ;
 };
+
+&trackball_central {
+    irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+};
