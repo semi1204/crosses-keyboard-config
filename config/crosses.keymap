@@ -1,7 +1,7 @@
 /*
  * Crosses 54 keymap ported from semi1204/sofle-keyboard-config (codex/ctrl-rightclick-thumb, f4feaf1).
  * Sofle middle column, encoders, RGB and soft-off do not exist on Crosses.
- * Thumbs: L Cmd / Space / Fn1-Esc, R B-Ctrl / Space-Fn2 / RCmd.
+ * Thumbs: L Option / Space-Cmd / Fn1-Esc, R B-Ctrl / Space-Fn2 / RCmd.
  */
 
 #include <behaviors.dtsi>
@@ -22,7 +22,7 @@
 // Any key other than excluded-positions turns it off immediately.
 &zip_temp_layer {
     require-prior-idle-ms = <300>;
-    excluded-positions = <26 27 28 36 38 48>;
+    excluded-positions = <26 27 28 36 38 48 49>;
 };
 
 // Right ball = pointer: x1.75 (stock cpi 700 felt slow).
@@ -219,6 +219,18 @@
             tapping-term-ms = <350>;
             bindings = <&auto_option>, <&kp>;
             display-name = "Hold Option / Tap Key";
+        };
+
+        // Balanced so Cmd+key works without waiting; recent typing always gives Space.
+        space_cmd: space_cmd {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&auto_command>, <&kp>;
+            display-name = "Hold Command / Tap Space";
         };
     };
 
@@ -422,7 +434,7 @@
 &kp TAB              &kp Q                &kp W                &kp E                &kp R                &kp T                  &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
 &kp CAPS             &kp A                &kp S                &kp D                &kp F                &kp G                  &kp H                &kp J                &kp K                &kp L                &kp SEMI             &kp ENTER
 &kp LSHFT            &kp Z                &hold_alt 0 X        &kp C                &kp V                &kp B                  &kp N                &kp M                &hold_alt 0 COMMA    &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
-                                                               &auto_command        &kp SPACE            &lt 1 ESC              &auto_b              &space_fn2 2 SPACE   &auto_right_command
+                                                               &auto_option         &space_cmd 0 SPACE   &lt 1 ESC             &auto_b              &space_fn2 2 SPACE   &auto_right_command
             >;
         };
 
