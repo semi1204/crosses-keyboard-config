@@ -23,9 +23,9 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 - Space/Command uses balanced hold-tap at 200 ms. X can be held for Control and comma for right Option, both at 350 ms.
 - BLE profile 1 selects the Windows modifier variant; default/USB uses Mac modifiers.
 - Sofle combos, macros and window-management layers are retained.
-- Right trackball movement enables AUTO MOUSE for 1000 ms; S/D/F become right/middle/left click, and the left Space/Command and Fn1/Escape thumbs become right/left click.
+- Right trackball movement enables AUTO MOUSE for 1000 ms; S/D/F become middle/right/left click; thumbs keep Option/Command for modified clicks.
 - On the Fn2 layer, the left Space/Command thumb is Shift.
-- Pointer multiplier: 1.75. Left scrolling uses a 1/5 multiplier after the peripheral's 1/4 scaler.
+- Pointer multiplier: 1.75. Left scrolling uses a 1/8 multiplier after the peripheral's 1/4 scaler.
 - On Manage layers, Z+X enters the right central's bootloader; C+V restarts the right central.
 
 The initial four-layer device keymap is preserved separately in the `codex/crosses-initial-keymap-20261027` branch. It has not been applied to the working keyboard.
