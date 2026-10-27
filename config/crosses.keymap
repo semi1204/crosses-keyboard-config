@@ -283,7 +283,7 @@
             flavor = "balanced";
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <250>;
+            require-prior-idle-ms = <150>;
             bindings = <&auto_command>, <&kp>;
             display-name = "Hold Command / Tap Space";
         };
