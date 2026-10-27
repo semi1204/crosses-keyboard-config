@@ -1,14 +1,41 @@
-# crosses-keyboard-config
+# Crosses BT firmware
 
-Crosses BT 54 (gggw) firmware with the keymap ported from
-[semi1204/sofle-keyboard-config](https://github.com/semi1204/sofle-keyboard-config) (`codex/ctrl-rightclick-thumb`).
+ZMK configuration for the tested 54-key split Crosses BT keyboard. The right half is the central; the left half forwards keys and scrolling over Bluetooth. The personal 10-layer keymap is ported from [semi1204/sofle-keyboard-config](https://github.com/semi1204/sofle-keyboard-config).
 
-- Base: Sofle layout without the middle column. Thumbs: L Option / Space-Cmd / Fn1-Esc, R B-Ctrl / Space-Fn2 / RCmd.
-- Left Space: tap = Space, hold = Cmd (balanced 200 ms; Windows profile: Ctrl).
-- X and `,`: tap = key, hold 350 ms = Option (Windows profile: Alt).
-- Sofle combos, macros and Mac/Windows profile modifiers are kept.
-- Moving the right trackball enables the AUTO MOUSE layer (S/D/F = right/middle/left click) for 500 ms.
-- Trackball speed: pointer x1.75, scroll x0.4 on top of the stock /4.
+## Verified Bluetooth configuration
 
-Flash `crosses_54_right` (USB / central) and `crosses_54_left` from the Actions artifacts.
-After flashing, reset ZMK Studio settings once so the saved Studio keymap does not override this one.
+This configuration was reported working over Bluetooth on 2026-10-27. The deployed firmware baseline is commit `24808e8f4962fb7c5fc7e5bae7496c375932c3ce`, built by [Actions run 40496429961](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40496429961).
+
+- Both halves use the 1 Mbps PHY (`CONFIG_BT_CTLR_PHY_2M=n`).
+- Internal RC 32 kHz clock, 500 ppm, with calibration enabled.
+- Matrix scan: row2col, with the left/right column order in the respective overlays.
+- Trackball SPI: SCK P0.17, shared MOSI/MISO P0.20, interrupt P0.6.
+- Right trackball: XY swap, with X/Y inversion removed.
+- ZMK Studio locking is enabled.
+- Normal builds produce only `crosses_54_right.uf2` and `crosses_54_left.uf2`.
+
+These pin assignments describe the tested PCB revision. GPIO numbers above are raw Nordic port/pin numbers.
+
+## Personal keymap
+
+- Sofle layout adapted to 54 keys, with the middle column removed.
+- Left thumbs: Option, Space/Command, Fn1/Escape. Right thumbs: B/Control, Space/Fn2, right Command.
+- Space/Command uses balanced hold-tap at 200 ms. X and comma can be held for Option at 350 ms.
+- BLE profile 1 selects the Windows modifier variant; default/USB uses Mac modifiers.
+- Sofle combos, macros and window-management layers are retained.
+- Right trackball movement enables AUTO MOUSE for 500 ms; S/D/F become right/middle/left click.
+- Pointer multiplier: 1.75. Left scrolling uses the personal 0.4 multiplier after the peripheral's 1/4 scaler.
+- On Manage layers, Z+X enters the right central's bootloader; C+V restarts the right central.
+
+The initial four-layer device keymap is preserved separately in the `codex/crosses-initial-keymap-20261027` branch. It has not been applied to the working keyboard.
+
+## Firmware checksums
+
+The application images actually deployed for the verified baseline have these SHA-256 hashes:
+
+```text
+d9b915746aa900d84058b54c02de8e0dadd6c0c72fab99ff5afbdd837c27b905  crosses_54_right.uf2
+dda755c72c0449ac8c2eee41ce06be9f2e9e2d460daf566fa7ef2e1a86464c38  crosses_54_left.uf2
+```
+
+Build through GitHub Actions and use the file matching each half. Bluetooth bonds and saved Studio overrides live in device storage; this repository contains firmware sources and the compiled keymap.

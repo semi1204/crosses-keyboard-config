@@ -1,0 +1,16 @@
+.DS_Store
+/build/
+/artifacts/
+/device-backups/
+*.uf2
+*.UF2
+*.hex
+*.bin
+*.elf
+*.log
+*.pem
+*.p12
+*.pfx
+.env
+.env.*
+
