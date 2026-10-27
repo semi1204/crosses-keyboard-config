@@ -10,8 +10,10 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 #define AUTO_MOUSE 9
+#define SCROLL_MODE 10
 
 &lt {
     flavor = "hold-preferred";
@@ -28,15 +30,35 @@
 // Right ball = pointer: x1.75 (stock cpi 700 felt slow).
 &trackball_central_listener {
     input-processors = <&zip_xy_scaler 7 4>, <&zip_temp_layer AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
+
+    // Holding S on AUTO_MOUSE turns the right ball into a scroll wheel.
+    scroll_mode {
+        layers = <SCROLL_MODE>;
+        input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_scaler 1 32>, <&zip_temp_layer AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
+    };
 };
 
 // Left ball = scroll: already /4 on the left half, x1/8 more here (stock felt too fast).
 &trackball_peripheral_listener {
     input-processors = <&zip_scroll_scaler 1 8>;
+
+    // On Fn2 the left ball zooms (Cmd +/-) instead of scrolling.
+    zoom {
+        layers = <2>;
+        input-processors = <&zip_scroll_zoom>;
+    };
 };
 
 / {
     chosen { zmk,physical-layout = &gggw_crosses_54_layout; };
+
+    zip_scroll_zoom: zip_scroll_zoom {
+        compatible = "zmk,input-processor-scroll-keys";
+        #input-processor-cells = <0>;
+        code = <INPUT_REL_WHEEL>;
+        threshold = <40>;
+        bindings = <&auto_zoom_in>, <&auto_zoom_out>;
+    };
 
     behaviors {
         auto_option: auto_option {
@@ -169,6 +191,22 @@
             windows-profile = <1>;
             bindings = <&kp LG(L)>, <&kp LA(L)>;
             display-name = "Auto Address Bar";
+        };
+
+        auto_zoom_in: auto_zoom_in {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(EQUAL)>, <&kp LA(EQUAL)>;
+            display-name = "Auto Zoom In";
+        };
+
+        auto_zoom_out: auto_zoom_out {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(MINUS)>, <&kp LA(MINUS)>;
+            display-name = "Auto Zoom Out";
         };
 
         auto_line_start: auto_line_start {
@@ -561,7 +599,18 @@
             bindings = <
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
-&trans     &trans     &mkp MCLK  &mkp RCLK  &mkp LCLK  &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &layer_click SCROLL_MODE MCLK  &mkp RCLK  &mkp LCLK  &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+                                 &trans     &trans     &trans       &trans     &trans     &trans
+            >;
+        };
+
+        scroll_mode {
+            display-name = "SCROLL MODE";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
                                  &trans     &trans     &trans       &trans     &trans     &trans
             >;

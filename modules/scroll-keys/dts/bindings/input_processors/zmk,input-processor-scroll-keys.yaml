@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Turn one relative axis into key taps: every `threshold` units in the positive
+  direction taps binding 0, in the negative direction binding 1.
+  All other relative events are swallowed while this processor is active.
+compatible: "zmk,input-processor-scroll-keys"
+
+include: ip_zero_param.yaml
+
+properties:
+  code:
+    type: int
+    required: true
+  threshold:
+    type: int
+    required: true
+  bindings:
+    type: phandle-array
+    required: true
