@@ -27,5 +27,7 @@
 };
 
 &trackball_central {
+    /delete-property/ invert-x;
+    /delete-property/ invert-y;
     irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
