@@ -24,14 +24,14 @@
 // Any key other than excluded-positions turns it off immediately.
 &zip_temp_layer {
     require-prior-idle-ms = <300>;
-    excluded-positions = <26 27 28 36 38 48 49>;
+    excluded-positions = <18 19 26 27 28 36 38 48 49>;
 };
 
 // Right ball = pointer: x1.75 (stock cpi 700 felt slow).
 &trackball_central_listener {
     input-processors = <&zip_xy_scaler 7 4>, <&zip_temp_layer AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
 
-    // Holding S on AUTO_MOUSE turns the right ball into a scroll wheel.
+    // Holding S or Y on AUTO_MOUSE turns the right ball into a scroll wheel.
     scroll_mode {
         layers = <SCROLL_MODE>;
         input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_scaler 1 32>, <&zip_temp_layer AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
@@ -598,7 +598,7 @@
             display-name = "AUTO MOUSE";
             bindings = <
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
-&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &layer_click SCROLL_MODE MCLK  &mkp LCLK  &trans     &trans     &trans     &trans
 &trans     &trans     &layer_click SCROLL_MODE MCLK  &mkp RCLK  &mkp LCLK  &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
                                  &trans     &trans     &trans       &trans     &trans     &trans

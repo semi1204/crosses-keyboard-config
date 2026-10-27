@@ -25,7 +25,7 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 - Sofle combos, macros and window-management layers are retained.
 - Right trackball movement enables AUTO MOUSE for 1000 ms; S/D/F become middle/right/left click; thumbs keep Option/Command for modified clicks.
 - On the Fn2 layer, the left Space/Command thumb is Shift.
-- On AUTO MOUSE, tapping S is middle click; holding S turns the right ball into a scroll wheel.
+- On AUTO MOUSE, tapping S or Y is middle click; holding S or Y turns the right ball into a scroll wheel. U is also left click.
 - On the Fn2 layer, the left ball zooms with Cmd +/- (Alt +/- on the Windows profile) via the local `modules/scroll-keys` input processor.
 - Pointer multiplier: 1.75. Left scrolling uses a 1/8 multiplier after the peripheral's 1/4 scaler.
 - On Manage layers, Z+X enters the right central's bootloader; C+V restarts the right central.
