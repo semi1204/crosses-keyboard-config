@@ -25,8 +25,14 @@
     excluded-positions = <26 27 28 36 38 48>;
 };
 
+// Right ball = pointer: x1.75 (stock cpi 700 felt slow).
 &trackball_central_listener {
-    input-processors = <&zip_ble_report_rate_limit>, <&zip_temp_layer AUTO_MOUSE 500>;
+    input-processors = <&zip_xy_scaler 7 4>, <&zip_temp_layer AUTO_MOUSE 500>, <&zip_ble_report_rate_limit>;
+};
+
+// Left ball = scroll: already /4 on the left half, x0.4 more here (stock felt too fast).
+&trackball_peripheral_listener {
+    input-processors = <&zip_scroll_scaler 2 5>;
 };
 
 / {
