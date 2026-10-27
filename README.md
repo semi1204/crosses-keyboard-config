@@ -39,10 +39,10 @@ d9b915746aa900d84058b54c02de8e0dadd6c0c72fab99ff5afbdd837c27b905  crosses_54_rig
 dda755c72c0449ac8c2eee41ce06be9f2e9e2d460daf566fa7ef2e1a86464c38  crosses_54_left.uf2
 ```
 
-The keymap tweaks above were then flashed to the right half only (commit `7c86c69`, [Actions run 40511391902](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40511391902)); the left image is unchanged:
+The keymap tweaks above were then flashed to the right half only (commit `036a29c`, [Actions run 40520558764](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40520558764)); the left image is unchanged:
 
 ```text
-9578d4405d36819c9f3c4c5b7c8a9a045546aeb261ac08787d7f522598753883  crosses_54_right.uf2
+595696bff8714330abe25e492c7dbc7d34e6fae8a20c4ef415ba463a36ba7d5b  crosses_54_right.uf2
 ```
 
 Build through GitHub Actions and use the file matching each half. Bluetooth bonds and saved Studio overrides live in device storage; this repository contains firmware sources and the compiled keymap.
