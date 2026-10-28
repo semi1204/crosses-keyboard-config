@@ -44,11 +44,11 @@ d9b915746aa900d84058b54c02de8e0dadd6c0c72fab99ff5afbdd837c27b905  crosses_54_rig
 dda755c72c0449ac8c2eee41ce06be9f2e9e2d460daf566fa7ef2e1a86464c38  crosses_54_left.uf2
 ```
 
-The current deployed images for both halves (commit `6aaf924`, [Actions run 40681071358](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40681071358)). Switching central roles required a settings reset on both halves and re-pairing the hosts:
+The current deployed images for both halves (commit `e9f5b71`, [Actions run 40684894557](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40684894557)). Switching central roles required a settings reset on both halves and re-pairing the hosts:
 
 ```text
-90996ea3b9d17f2858433e9e4f0fddee31024f02ec842bc906e5c72c99a4d7a1  crosses_54_right.uf2
-a8e7871c0b0dfd3bac0f8a956e0b24fbb55782524164dcce6682fe22c2388651  crosses_54_left.uf2
+0e18a1ba7b04b274f0591f17e67b87b0023a82a1a36f4f33d1014ea71ed6305e  crosses_54_right.uf2
+e439235303634c2d07c9da45bbda1de8e1a50d923881495c5a642f870b9ba9e3  crosses_54_left.uf2
 ```
 
 Build through GitHub Actions and use the file matching each half. Bluetooth bonds and saved Studio overrides live in device storage; this repository contains firmware sources and the compiled keymap.
