@@ -291,13 +291,13 @@
             display-name = "Hold Scroll / Tap Click";
         };
 
-        // ONE_HAND Space: tap = Space, hold with another key = right-hand mirror.
+        // ONE_HAND Space: any key pressed while it is down is mirrored; alone it is Space.
         space_mirror: space_mirror {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "balanced";
+            flavor = "hold-preferred";
             tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
+            retro-tap;
             bindings = <&mo>, <&kp>;
             display-name = "Space / Mirror";
         };
