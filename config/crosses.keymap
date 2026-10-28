@@ -570,7 +570,7 @@
             display-name = "LAYER0";
             bindings = <
 &kp ESC              &kp N1               &kp N2               &kp N3               &kp N4               &kp N5                 &kp N6               &kp N7               &kp N8               &kp N9               &kp N0               &kp BSLH
-&kp TAB              &kp Q                &kp W                &kp E                &kp R                &kp T                  &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
+&kp TAB              &kp Q                &kp W                &kp E                &kp R                &hold_right_alt 0 T   &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
 &kp CAPS             &kp A                &kp S                &kp D                &kp F                &kp G                  &kp H                &kp J                &kp K                &kp L                &kp SEMI             &kp ENTER
 &kp LSHFT            &kp Z                &hold_ctrl 0 X       &kp C                &kp V                &kp B                  &kp N                &kp M                &hold_right_alt 0 COMMA &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
                                                                &option_arm 0 LEFT_ARM &space_cmd 0 SPACE   &lt 1 ESC             &auto_b              &space_fn2 2 SPACE   &auto_right_command
