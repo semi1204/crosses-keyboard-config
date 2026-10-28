@@ -21,8 +21,3 @@
 &trackball_peripheral {
     irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
-
-// Send raw X/Y; the right half decides scroll, pointer or zoom per layer.
-&trackball_peripheral_split {
-    input-processors = <&zip_ble_report_rate_limit>;
-};

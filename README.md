@@ -27,8 +27,7 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 - On the Fn2 layer, the left Space/Command thumb is Shift.
 - On AUTO MOUSE, tapping S or Y is middle click; holding S or Y turns the right ball into a scroll wheel. U is also left click.
 - On the Fn2 layer, the left ball zooms with Cmd +/- (Alt +/- on the Windows profile) via the local `modules/scroll-keys` input processor.
-- Pointer multiplier: 1.75. The left half sends raw ball motion; left scrolling uses a 1/32 multiplier on the right half.
-- One-handed left mouse: tap the Option thumb, then move the left ball within 1.5 s. The left ball moves the pointer until 1000 ms after the last movement; F/D = left/right click, S = middle click (hold to scroll), Z/X/C/V = undo/cut/copy/paste.
+- Pointer multiplier: 1.75. Left scrolling uses a 1/8 multiplier after the peripheral's 1/4 scaler.
 - On Manage layers, Z+X enters the right central's bootloader; C+V restarts the right central.
 
 The initial four-layer device keymap is preserved separately in the `codex/crosses-initial-keymap-20261027` branch. It has not been applied to the working keyboard.
