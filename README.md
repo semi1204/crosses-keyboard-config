@@ -20,7 +20,7 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 
 - Sofle layout adapted to 54 keys, with the middle column removed.
 - Left thumbs: Option, Space/Command, Fn1/Escape. Right thumbs: B/Control, Space/Fn2, right Command.
-- One-handed mode (left half alone): Space + Fn1/Escape toggles it. The Space thumb taps Space and, held, mirrors the right hand onto the left keys (Half-QWERTY: D→K, Tab→Backspace, Caps→Enter); the Option thumb becomes Command.
+- One-handed mode (left half alone): Space + Fn1/Escape toggles it. The Space thumb taps Space and, held, mirrors the right hand onto the left keys (Half-QWERTY: D→K, Tab→Backspace, Caps→Enter); the Option thumb becomes Shift and D+F gives Command.
 - Space/Command uses balanced hold-tap at 200 ms and is always Space within 150 ms of typing. X can be held for Control, and T or comma for right Option, all at 350 ms.
 - Fn1 numpad on the right three columns: 789 / 456 / 123 / 0, with Delete bottom right (F9/F10 stay on Fn2).
 - BLE profile 1 selects the Windows modifier variant; default/USB uses Mac modifiers.
