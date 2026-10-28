@@ -39,14 +39,14 @@
     };
 };
 
-// Left ball = scroll: already /4 on the left half, x1/8 more here (stock felt too fast).
+// Left ball = scroll at 1/32 (stock 1/4 felt too fast).
 &trackball_peripheral_listener {
-    input-processors = <&zip_scroll_scaler 1 8>;
+    input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_scaler 1 32>, <&zip_ble_report_rate_limit>;
 
     // On Fn2 the left ball zooms (Cmd +/-) instead of scrolling.
     zoom {
         layers = <2>;
-        input-processors = <&zip_scroll_zoom>;
+        input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_scaler 1 4>, <&zip_scroll_zoom>;
     };
 };
 
@@ -305,7 +305,7 @@
     combos {
         compatible = "zmk,combos";
 
-        // Combos execute on the central, so these left-hand keys recover the right half.
+        // Combos execute on the central (left half); MANAGE's right-hand keys reach the right half.
         combo_left_bootloader {
             timeout-ms = <50>;
             key-positions = <37 38>;

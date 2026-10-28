@@ -31,3 +31,17 @@
     /delete-property/ invert-y;
     irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
+
+// Right is the peripheral: send the raw right-ball XY to the left central.
+&trackball_peripheral_split {
+    device = <&trackball_central>;
+    input-processors = <&zip_ble_report_rate_limit>;
+};
+
+&trackball_central_listener {
+    status = "disabled";
+};
+
+&trackball_peripheral_listener {
+    status = "disabled";
+};

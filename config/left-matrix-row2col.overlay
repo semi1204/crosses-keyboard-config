@@ -21,3 +21,14 @@
 &trackball_peripheral {
     irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
+
+// Left is the central: the left ball is read locally, the right ball arrives over the split.
+&trackball_peripheral_listener {
+    status = "okay";
+    device = <&trackball_peripheral>;
+};
+
+&trackball_central_listener {
+    status = "okay";
+    device = <&trackball_peripheral_split>;
+};
