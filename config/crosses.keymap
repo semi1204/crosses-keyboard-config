@@ -15,6 +15,9 @@
 
 #define AUTO_MOUSE 9
 #define SCROLL_MODE 10
+#define LEFT_MOUSE 11
+#define LEFT_ARM 12
+#define LEFT_SCROLL 13
 
 &lt {
     flavor = "hold-preferred";
@@ -39,14 +42,33 @@
     };
 };
 
-// Left ball = scroll: already /4 on the left half, x1/8 more here (stock felt too fast).
+// Tapping the Option thumb arms LEFT_ARM for 1.5 s; moving the left ball then holds LEFT_MOUSE
+// for 1000 ms after the last movement. Any key other than excluded-positions turns it off.
+&sl {
+    release-after-ms = <1500>;
+};
+
+// Left ball sends raw X/Y from the left half (see left-matrix-row2col.overlay).
+// Default = scroll at x1/32 (the old /4 on the left times /8 here, stock felt too fast).
 &trackball_peripheral_listener {
-    input-processors = <&zip_scroll_scaler 1 8>;
+    input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_scaler 1 32>;
+
+    // Holding S in LEFT_MOUSE scrolls with the left ball and keeps LEFT_MOUSE alive.
+    left_scroll {
+        layers = <LEFT_SCROLL>;
+        input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_scaler 1 32>, <&zip_temp_layer_left LEFT_MOUSE 1000>;
+    };
+
+    // One-handed left mouse: the left ball moves the pointer.
+    left_pointer {
+        layers = <LEFT_MOUSE LEFT_ARM>;
+        input-processors = <&zip_xy_scaler 7 4>, <&zip_temp_layer_left LEFT_MOUSE 1000>;
+    };
 
     // On Fn2 the left ball zooms (Cmd +/-) instead of scrolling.
     zoom {
         layers = <2>;
-        input-processors = <&zip_scroll_zoom>;
+        input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_zoom>;
     };
 };
 
@@ -57,8 +79,14 @@
         compatible = "zmk,input-processor-scroll-keys";
         #input-processor-cells = <0>;
         code = <INPUT_REL_WHEEL>;
-        threshold = <40>;
+        threshold = <160>;
         bindings = <&auto_zoom_in>, <&auto_zoom_out>;
+    };
+
+    zip_temp_layer_left: zip_temp_layer_left {
+        compatible = "zmk,input-processor-temp-layer";
+        #input-processor-cells = <2>;
+        excluded-positions = <26 27 28 36 37 38 39 40 48 49>;
     };
 
     behaviors {
@@ -210,6 +238,38 @@
             display-name = "Auto Zoom Out";
         };
 
+        auto_copy: auto_copy {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(C)>, <&kp LA(C)>;
+            display-name = "Auto Copy";
+        };
+
+        auto_paste: auto_paste {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(V)>, <&kp LA(V)>;
+            display-name = "Auto Paste";
+        };
+
+        auto_cut: auto_cut {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(X)>, <&kp LA(X)>;
+            display-name = "Auto Cut";
+        };
+
+        auto_undo: auto_undo {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(Z)>, <&kp LA(Z)>;
+            display-name = "Auto Undo";
+        };
+
         auto_line_start: auto_line_start {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -266,6 +326,16 @@
             tapping-term-ms = <350>;
             bindings = <&auto_control>, <&kp>;
             display-name = "Hold Control / Tap Key";
+        };
+
+        // Hold = Option; tap = arm the one-handed left mouse.
+        option_arm: option_arm {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&auto_option>, <&sl>;
+            display-name = "Hold Option / Tap Left Mouse";
         };
 
         hold_right_alt: hold_right_alt {
@@ -503,7 +573,7 @@
 &kp TAB              &kp Q                &kp W                &kp E                &kp R                &kp T                  &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
 &kp CAPS             &kp A                &kp S                &kp D                &kp F                &kp G                  &kp H                &kp J                &kp K                &kp L                &kp SEMI             &kp ENTER
 &kp LSHFT            &kp Z                &hold_ctrl 0 X       &kp C                &kp V                &kp B                  &kp N                &kp M                &hold_right_alt 0 COMMA &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
-                                                               &auto_option         &space_cmd 0 SPACE   &lt 1 ESC             &auto_b              &space_fn2 2 SPACE   &auto_right_command
+                                                               &option_arm 0 LEFT_ARM &space_cmd 0 SPACE   &lt 1 ESC             &auto_b              &space_fn2 2 SPACE   &auto_right_command
             >;
         };
 
@@ -608,6 +678,39 @@
 
         scroll_mode {
             display-name = "SCROLL MODE";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+                                 &trans     &trans     &trans       &trans     &trans     &trans
+            >;
+        };
+
+        left_mouse {
+            display-name = "LEFT MOUSE";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &layer_click LEFT_SCROLL MCLK  &mkp RCLK  &mkp LCLK  &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &auto_undo &auto_cut   &auto_copy &auto_paste &trans      &trans     &trans     &trans     &trans     &trans     &trans
+                                 &trans     &trans     &trans       &trans     &trans     &trans
+            >;
+        };
+
+        left_arm {
+            display-name = "LEFT ARM";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+                                 &trans     &trans     &trans       &trans     &trans     &trans
+            >;
+        };
+
+        left_scroll {
+            display-name = "LEFT SCROLL";
             bindings = <
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
