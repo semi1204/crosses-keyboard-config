@@ -510,10 +510,10 @@
         layer_1 {
             display-name = "LAYER1";
             bindings = <
-&kp GRAVE        &kp F1           &kp F2           &kp F3           &kp F4           &kp F5             &kp F6           &kp F7           &kp F8           &kp F9           &kp F10          &kp DELETE
-&mo 5            &kp GRAVE        &kp MINUS        &kp KP_PLUS      &kp STAR         &kp FSLH           &kp LPAR         &kp LBRC         &kp LBKT         &kp N7           &kp N8           &kp N9
-&trans           &kp EXCL         &kp APOS         &none            &kp EQUAL        &kp DLLR           &kp RPAR         &kp RBRC         &kp RBKT         &kp N4           &kp N5           &kp N6
-&trans           &kp TILDE        &kp PIPE         &kp HASH         &kp AMPS         &kp BSLH           &kp COLON        &kp COMMA        &kp DOT          &kp N1           &kp N2           &kp N3
+&kp GRAVE        &kp F1           &kp F2           &kp F3           &kp F4           &kp F5             &kp F6           &kp F7           &kp F8           &kp N7           &kp N8           &kp N9
+&mo 5            &kp GRAVE        &kp MINUS        &kp KP_PLUS      &kp STAR         &kp FSLH           &kp LPAR         &kp LBRC         &kp LBKT         &kp N4           &kp N5           &kp N6
+&trans           &kp EXCL         &kp APOS         &none            &kp EQUAL        &kp DLLR           &kp RPAR         &kp RBRC         &kp RBKT         &kp N1           &kp N2           &kp N3
+&trans           &kp TILDE        &kp PIPE         &kp HASH         &kp AMPS         &kp BSLH           &kp COLON        &kp COMMA        &kp DOT          &kp N0           &trans           &kp DELETE
                                                    &trans           &trans           &trans             &trans           &kp RIGHT_SHIFT  &trans
             >;
         };

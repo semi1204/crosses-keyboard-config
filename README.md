@@ -21,6 +21,7 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 - Sofle layout adapted to 54 keys, with the middle column removed.
 - Left thumbs: Option, Space/Command, Fn1/Escape. Right thumbs: B/Control, Space/Fn2, right Command.
 - Space/Command uses balanced hold-tap at 200 ms and is always Space within 150 ms of typing. X can be held for Control, and T or comma for right Option, all at 350 ms.
+- Fn1 numpad on the right three columns: 789 / 456 / 123 / 0, with Delete bottom right (F9/F10 stay on Fn2).
 - BLE profile 1 selects the Windows modifier variant; default/USB uses Mac modifiers.
 - Sofle combos, macros and window-management layers are retained.
 - Right trackball movement enables AUTO MOUSE for 1000 ms; S/D/F become middle/right/left click; thumbs keep Option/Command for modified clicks.
