@@ -42,17 +42,11 @@ d9b915746aa900d84058b54c02de8e0dadd6c0c72fab99ff5afbdd837c27b905  crosses_54_rig
 dda755c72c0449ac8c2eee41ce06be9f2e9e2d460daf566fa7ef2e1a86464c38  crosses_54_left.uf2
 ```
 
-The keymap tweaks above and the left release debounce were then flashed to both halves (commit `107a303`, [Actions run 40562426493](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40562426493)):
+The current deployed images for both halves (commit `1640292`, [Actions run 40638763816](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40638763816)):
 
 ```text
-e06280ce16983a124c8802d45dcf079559739ce5f119dd8ffcdf2f968c55e5ff  crosses_54_right.uf2
-653d6a3dc302fd321e66cd12832be7642527d638b10e1c66d2a3e0fa7a104941  crosses_54_left.uf2
-```
-
-The right half was then reflashed with the inverted right-ball vertical scroll (commit `8bbb329`, [Actions run 40563772488](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40563772488)):
-
-```text
-ae00678163890dd18ef4a4958be806a18c5792d629f6ca33dd2c6304bd695d54  crosses_54_right.uf2
+7f27dd3d17d2966fd5ac1494f7e0c2779bfd362404593df35a2aed830ca86994  crosses_54_right.uf2
+ba0d8a9d5fde1a3ce54a5014a57e7c8c71f6b92f67cdd55eecc0ad0d908e79c6  crosses_54_left.uf2
 ```
 
 Build through GitHub Actions and use the file matching each half. Bluetooth bonds and saved Studio overrides live in device storage; this repository contains firmware sources and the compiled keymap.
