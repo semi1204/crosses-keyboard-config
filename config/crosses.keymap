@@ -17,6 +17,7 @@
 #define SCROLL_MODE 10
 #define ONE_HAND 11
 #define MIRROR 12
+#define ONE_NAV 13
 
 &lt {
     flavor = "hold-preferred";
@@ -210,6 +211,63 @@
             windows-profile = <1>;
             bindings = <&kp LG(MINUS)>, <&kp LA(MINUS)>;
             display-name = "Auto Zoom Out";
+        };
+
+        auto_undo: auto_undo {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(Z)>, <&kp LA(Z)>;
+            display-name = "Auto Undo";
+        };
+
+        auto_cut: auto_cut {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(X)>, <&kp LA(X)>;
+            display-name = "Auto Cut";
+        };
+
+        auto_copy: auto_copy {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(C)>, <&kp LA(C)>;
+            display-name = "Auto Copy";
+        };
+
+        auto_paste: auto_paste {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LG(V)>, <&kp LA(V)>;
+            display-name = "Auto Paste";
+        };
+
+        // One-shot modifiers for ONE_NAV, same host mapping as auto_command/auto_option/auto_control.
+        sticky_command: sticky_command {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&sk LEFT_GUI>, <&sk LEFT_ALT>;
+            display-name = "Sticky Command";
+        };
+
+        sticky_option: sticky_option {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&sk LEFT_ALT>, <&sk LEFT_GUI>;
+            display-name = "Sticky Option";
+        };
+
+        sticky_control: sticky_control {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&sk LCTRL>, <&sk LEFT_ALT>;
+            display-name = "Sticky Control";
         };
 
         auto_line_start: auto_line_start {
@@ -656,7 +714,8 @@
             >;
         };
 
-        // Left half alone: Space thumb taps Space / holds MIRROR, Option thumb becomes Shift (D+F = Command).
+        // Left half alone: Space thumb taps Space / holds MIRROR, Option thumb becomes Shift (D+F = Command),
+        // Fn1/Esc thumb taps Esc / holds ONE_NAV.
         one_hand {
             display-name = "ONE HAND";
             bindings = <
@@ -664,7 +723,7 @@
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
-                                 &kp LSHFT  &space_mirror MIRROR SPACE  &trans       &trans     &trans     &trans
+                                 &kp LSHFT  &space_mirror MIRROR SPACE  &lt ONE_NAV ESC  &trans     &trans     &trans
             >;
         };
 
@@ -677,6 +736,18 @@
 &kp ENTER      &kp SEMI       &kp L          &kp K          &kp J          &kp H            &trans     &trans     &trans     &trans     &trans     &trans
 &kp LSHFT      &kp FSLH       &kp DOT        &kp COMMA      &kp M          &kp N            &trans     &trans     &trans     &trans     &trans     &trans
                                              &trans         &trans         &trans           &trans     &trans     &trans
+            >;
+        };
+
+        // ONE_HAND Fn1/Esc hold: arrows on ESDF, edit shortcuts on ZXCV, one-shot Ctrl/Option/Command on Q/T/B.
+        one_nav {
+            display-name = "ONE NAV";
+            bindings = <
+&trans           &trans           &trans           &trans           &trans           &trans             &trans     &trans     &trans     &trans     &trans     &trans
+&trans           &sticky_control  &kp LA(LEFT)     &kp UP           &kp LA(RIGHT)    &sticky_option     &trans     &trans     &trans     &trans     &trans     &trans
+&trans           &auto_line_start &kp LEFT         &kp DOWN         &kp RIGHT        &auto_line_end     &trans     &trans     &trans     &trans     &trans     &trans
+&trans           &auto_undo       &auto_cut        &auto_copy       &auto_paste      &sticky_command    &trans     &trans     &trans     &trans     &trans     &trans
+                                                   &trans           &trans           &trans             &trans     &trans     &trans
             >;
         };
     };
