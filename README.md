@@ -43,10 +43,10 @@ d9b915746aa900d84058b54c02de8e0dadd6c0c72fab99ff5afbdd837c27b905  crosses_54_rig
 dda755c72c0449ac8c2eee41ce06be9f2e9e2d460daf566fa7ef2e1a86464c38  crosses_54_left.uf2
 ```
 
-The current deployed images for both halves (commit `ac28862`, [Actions run 40665630715](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40665630715); the left image is unchanged since `8809f48`):
+The current deployed images for both halves (commit `98cdaca`, [Actions run 40670862374](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40670862374); the left image is unchanged since `8809f48`):
 
 ```text
-43b40d392918c08352f43db56d1eb707e0c4a3ce3e66876c7eb43d607812e2fb  crosses_54_right.uf2
+cf48ef587a257fe8b3ff50310f96b1bc1e1532e65f50e855ae74b9ddf5bf6454  crosses_54_right.uf2
 f95f094c993743a5fec820124e6ad651e4aa300a3e26a38e6da5682af5ca881d  crosses_54_left.uf2
 ```
 
