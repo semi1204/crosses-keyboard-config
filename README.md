@@ -1,6 +1,6 @@
 # Crosses BT firmware
 
-ZMK configuration for the tested 54-key split Crosses BT keyboard. The right half is the central; the left half forwards keys and scrolling over Bluetooth. The personal 10-layer keymap is ported from [semi1204/sofle-keyboard-config](https://github.com/semi1204/sofle-keyboard-config).
+ZMK configuration for the tested 54-key split Crosses BT keyboard. The left half is the central (so it also works on its own); the right half forwards its keys and raw trackball movement over Bluetooth. The personal 10-layer keymap is ported from [semi1204/sofle-keyboard-config](https://github.com/semi1204/sofle-keyboard-config).
 
 ## Verified Bluetooth configuration
 
@@ -30,8 +30,8 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 - On AUTO MOUSE, tapping S is middle click; holding S turns the right ball into a scroll wheel. U is also left click.
 - On AUTO MOUSE, the left Option thumb taps as left click (quick re-taps give double/triple click); holding it past 150 ms turns the right ball into a scroll wheel (no Option).
 - On the Fn2 layer, the left ball zooms with Cmd +/- (Alt +/- on the Windows profile) via the local `modules/scroll-keys` input processor.
-- Pointer multiplier: 1.75. Left scrolling uses a 1/8 multiplier after the peripheral's 1/4 scaler.
-- On Manage layers, Z+X enters the right central's bootloader; C+V restarts the right central.
+- Pointer multiplier: 1.75. Left scrolling uses a 1/32 multiplier.
+- On Manage layers, Z+X enters the left central's bootloader; C+V restarts the left central.
 
 The initial four-layer device keymap is preserved separately in the `codex/crosses-initial-keymap-20261027` branch. It has not been applied to the working keyboard.
 
@@ -44,11 +44,11 @@ d9b915746aa900d84058b54c02de8e0dadd6c0c72fab99ff5afbdd837c27b905  crosses_54_rig
 dda755c72c0449ac8c2eee41ce06be9f2e9e2d460daf566fa7ef2e1a86464c38  crosses_54_left.uf2
 ```
 
-The current deployed images for both halves (commit `98cdaca`, [Actions run 40670862374](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40670862374); the left image is unchanged since `8809f48`):
+The current deployed images for both halves (commit `96a4310`, [Actions run 40677576869](https://github.com/semi1204/crosses-keyboard-config/actions/runs/40677576869); the right image is unchanged since `fe099c6`). Switching central roles required a settings reset on both halves and re-pairing the hosts:
 
 ```text
-cf48ef587a257fe8b3ff50310f96b1bc1e1532e65f50e855ae74b9ddf5bf6454  crosses_54_right.uf2
-f95f094c993743a5fec820124e6ad651e4aa300a3e26a38e6da5682af5ca881d  crosses_54_left.uf2
+9fd2e1c2c3b394916620a1cf8f7a33167e38ca5b4fb7c0801c84ae2c4c3c55d1  crosses_54_right.uf2
+44a9f06e26cc0e58366b93a76564f31179d72cdccedf19ef89d555a82d9a171f  crosses_54_left.uf2
 ```
 
 Build through GitHub Actions and use the file matching each half. Bluetooth bonds and saved Studio overrides live in device storage; this repository contains firmware sources and the compiled keymap.
