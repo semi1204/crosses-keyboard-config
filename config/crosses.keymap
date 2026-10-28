@@ -1,7 +1,7 @@
 /*
  * Crosses 54 keymap ported from semi1204/sofle-keyboard-config (codex/ctrl-rightclick-thumb, f4feaf1).
  * Sofle middle column, encoders, RGB and soft-off do not exist on Crosses.
- * Thumbs: L Option / Space-Cmd / Fn1-Esc, R B-Ctrl / Space-Fn2 / RCmd.
+ * Thumbs: L Space-Cmd / Option / Fn1-Esc, R RCmd / B-Ctrl / Space-Fn2.
  */
 
 #include <behaviors.dtsi>
@@ -15,6 +15,8 @@
 
 #define AUTO_MOUSE 9
 #define SCROLL_MODE 10
+#define ONE_HAND 11
+#define MIRROR 12
 
 &lt {
     flavor = "hold-preferred";
@@ -289,6 +291,17 @@
             display-name = "Hold Scroll / Tap Click";
         };
 
+        // ONE_HAND Space: tap = Space, hold with another key = right-hand mirror.
+        space_mirror: space_mirror {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            bindings = <&mo>, <&kp>;
+            display-name = "Space / Mirror";
+        };
+
         // Balanced so Cmd+key works without waiting; recent typing always gives Space.
         space_cmd: space_cmd {
             compatible = "zmk,behavior-hold-tap";
@@ -324,6 +337,13 @@
             key-positions = <12>;
             bindings = <&mo 5>;
             layers = <1>;
+        };
+        // Option + Fn1/Esc thumbs toggle one-handed mode.
+        combo_one_hand {
+            timeout-ms = <50>;
+            key-positions = <49 50>;
+            bindings = <&tog ONE_HAND>;
+            layers = <0 ONE_HAND>;
         };
         combo_sd_symbols {
             timeout-ms = <50>;
@@ -515,7 +535,7 @@
 &kp TAB              &kp Q                &kp W                &kp E                &kp R                &hold_right_alt 0 T   &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
 &kp CAPS             &kp A                &kp S                &kp D                &kp F                &kp G                  &kp H                &kp J                &kp K                &kp L                &kp SEMI             &kp ENTER
 &kp LSHFT            &kp Z                &hold_ctrl 0 X       &kp C                &kp V                &kp B                  &kp N                &kp M                &hold_right_alt 0 COMMA &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
-                                                               &auto_option         &space_cmd 0 SPACE   &lt 1 ESC             &auto_b              &space_fn2 2 SPACE   &auto_right_command
+                                                               &space_cmd 0 SPACE   &auto_option         &lt 1 ESC             &auto_right_command  &auto_b              &space_fn2 2 SPACE
             >;
         };
 
@@ -526,7 +546,7 @@
 &mo 5            &kp GRAVE        &kp MINUS        &kp KP_PLUS      &kp STAR         &kp FSLH           &kp LPAR         &kp LBRC         &kp LBKT         &kp N4           &kp N5           &kp N6
 &trans           &kp EXCL         &kp APOS         &none            &kp EQUAL        &kp DLLR           &kp RPAR         &kp RBRC         &kp RBKT         &kp N1           &kp N2           &kp N3
 &trans           &kp TILDE        &kp PIPE         &kp HASH         &kp AMPS         &kp BSLH           &kp COLON        &kp COMMA        &kp DOT          &kp N0           &trans           &kp DELETE
-                                                   &trans           &trans           &trans             &trans           &kp RIGHT_SHIFT  &trans
+                                                   &trans           &trans           &trans             &trans           &trans           &kp RIGHT_SHIFT
             >;
         };
 
@@ -537,7 +557,7 @@
 &kp TAB             &kp EXCL            &kp AT              &kp HASH            &kp DLLR            &kp TILDE             &auto_line_end      &kp LA(LEFT)        &kp UP              &kp LA(RIGHT)       &auto_previous_tab  &auto_next_tab
 &kp CAPS            &kp STAR            &kp C_VOL_DN        &kp C_MUTE          &kp C_VOL_UP        &kp UNDER             &auto_line_start    &kp LEFT            &kp DOWN            &kp RIGHT           &auto_back          &auto_forward
 &kp LSHFT           &kp LC(MINUS)       &kp LC(EQUAL)       &kp LC(N0)          &trans              &kp C_PLAY_PAUSE      &auto_reopen_tab    &auto_close_tab     &auto_address_bar   &none               &none               &none
-                                                            &trans              &kp LSHFT           &trans                &trans              &trans              &trans
+                                                            &kp LSHFT           &trans              &trans                &trans              &trans              &trans
             >;
         };
 
@@ -581,7 +601,7 @@
 &mo 7                  &trans                 &kp C_VOL_DN           &kp C_VOL_UP           &kp C_MUTE             &trans                   &kp F11                &kp LA(LEFT)           &kp UP                 &kp LA(RIGHT)          &kp LG(LEFT_BRACKET)   &kp LG(RIGHT_BRACKET)
 &trans                 &kp C_PLAY_PAUSE       &kp LA(LEFT_BRACKET)   &kp LA(BSLH)           &kp LA(RIGHT_BRACKET)  &trans                   &kp LG(LEFT_BRACKET)   &kp LEFT               &kp DOWN               &kp RIGHT              &kp LBRC               &kp RBRC
 &trans                 &trans                 &trans                 &trans                 &trans                 &trans                   &kp LG(MINUS)          &kp LG(EQUAL)          &kp LG(N0)             &trans                 &trans                 &trans
-                                                                     &trans                 &kp LEFT_SHIFT         &trans                   &trans                 &trans                 &trans
+                                                                     &kp LEFT_SHIFT         &trans                 &trans                   &trans                 &trans                 &trans
             >;
         };
 
@@ -626,6 +646,30 @@
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
                                  &trans     &trans     &trans       &trans     &trans     &trans
+            >;
+        };
+
+        // Left half alone: Space thumb taps Space / holds MIRROR, Option thumb becomes Command.
+        one_hand {
+            display-name = "ONE HAND";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+                                 &space_mirror MIRROR SPACE  &auto_command  &trans       &trans     &trans     &trans
+            >;
+        };
+
+        // Half-QWERTY: each left key types the right-hand key in the mirrored spot.
+        mirror {
+            display-name = "MIRROR";
+            bindings = <
+&kp BSLH       &kp N0         &kp N9         &kp N8         &kp N7         &kp N6           &trans     &trans     &trans     &trans     &trans     &trans
+&kp BACKSPACE  &kp P          &kp O          &kp I          &kp U          &kp Y            &trans     &trans     &trans     &trans     &trans     &trans
+&kp ENTER      &kp SEMI       &kp L          &kp K          &kp J          &kp H            &trans     &trans     &trans     &trans     &trans     &trans
+&kp LSHFT      &kp FSLH       &kp DOT        &kp COMMA      &kp M          &kp N            &trans     &trans     &trans     &trans     &trans     &trans
+                                             &trans         &trans         &trans           &trans     &trans     &trans
             >;
         };
     };
