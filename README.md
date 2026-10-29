@@ -20,11 +20,11 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 
 - Sofle layout adapted to 54 keys, with the middle column removed.
 - Left thumbs: Option, Space/Command, Fn1/Escape. Right thumbs: B/Control, Space/Fn2, right Command.
-- One-handed mode (left half alone): Space + Fn1/Escape toggles it. The Space thumb taps Space and, held, mirrors the right hand onto the left keys (Half-QWERTY: D→K, Tab→Backspace, Caps→Enter); the Option thumb becomes Shift and D+F gives Command (with Space held, D+F deletes a word like J+K). Holding Fn1/Escape gives arrows on E/S/D/F, word jumps on W/R, line start/end on A/G, undo/cut/copy/paste on Z/X/C/V, and one-shot Control/Option/Command on Q/T/B.
+- One-handed mode (left half alone): Space + Fn1/Escape toggles it. The Space thumb taps Space and, held, mirrors the right hand onto the left keys (Half-QWERTY: D→K, Tab→Backspace, Caps→Enter); the Option thumb becomes Shift and D+F gives Command (with Space held, D+F sends K+J like J+K). Holding Fn1/Escape gives arrows on E/S/D/F, word jumps on W/R, line start/end on A/G, undo/cut/copy/paste on Z/X/C/V, and one-shot Control/Option/Command on Q/T/B.
 - Space/Command uses balanced hold-tap at 200 ms and is always Space within 150 ms of typing. X can be held for Control, and T or comma for right Option, all at 350 ms.
 - Fn1 numpad on the right three columns: 789 / 456 / 123 / 0, with Delete bottom right (F9/F10 stay on Fn2).
 - BLE profile 1 selects the Windows modifier variant; default/USB uses Mac modifiers.
-- Sofle combos, macros and window-management layers are retained.
+- Sofle combos, macros and window-management layers are retained, except the J+K word-delete combo: its Option+arrow macro is Mac-only and deleted the whole line on the Windows profile (Windows and Linux hosts), so J+K is left to the host's own J+K chord (Karabiner / kanata).
 - Right trackball movement enables AUTO MOUSE for 1000 ms; S/D/F become middle/right/left click; the Command thumb stays Command for modified clicks.
 - On the Fn2 layer, the left Space/Command thumb is Shift.
 - On AUTO MOUSE, tapping S is middle click; holding S turns the right ball into a scroll wheel. U is also left click.

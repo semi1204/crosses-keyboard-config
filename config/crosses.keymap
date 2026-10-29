@@ -427,19 +427,22 @@
             bindings = <&kp RIGHT_GUI>;
             layers = <0 ONE_HAND>;
         };
-        combo_jk_delete_word {
-            timeout-ms = <50>;
-            key-positions = <31 32>;
-            bindings = <&delete_word>;
-            layers = <0>;
-        };
-        // JK mirrored for one-handed mode: hold Space, then D+F.
-        combo_mirror_delete_word {
-            timeout-ms = <50>;
-            key-positions = <27 28>;
-            bindings = <&delete_word>;
-            layers = <MIRROR>;
-        };
+        // Disabled: delete_word's LA() is Option only on the Mac profile; on the Windows profile
+        // (Windows and Linux hosts) raw LAlt is Command, so it deleted the whole line.
+        // J+K now reaches the host, whose own J+K chord (Karabiner / kanata) deletes the word.
+        // combo_jk_delete_word {
+        //     timeout-ms = <50>;
+        //     key-positions = <31 32>;
+        //     bindings = <&delete_word>;
+        //     layers = <0>;
+        // };
+        // JK mirrored for one-handed mode: hold Space, then D+F (sends K+J to the host while disabled).
+        // combo_mirror_delete_word {
+        //     timeout-ms = <50>;
+        //     key-positions = <27 28>;
+        //     bindings = <&delete_word>;
+        //     layers = <MIRROR>;
+        // };
         combo_jl_delete_line {
             timeout-ms = <50>;
             key-positions = <31 33>;
