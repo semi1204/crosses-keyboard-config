@@ -189,14 +189,6 @@
             display-name = "Auto Close Tab";
         };
 
-        auto_address_bar: auto_address_bar {
-            compatible = "zmk,behavior-profile-modifier";
-            #binding-cells = <0>;
-            windows-profile = <1>;
-            bindings = <&kp LG(L)>, <&kp LA(L)>;
-            display-name = "Auto Address Bar";
-        };
-
         auto_zoom_in: auto_zoom_in {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -624,7 +616,7 @@
 &kp TILDE           &bt_channel_1       &bt_channel_2       &kp F3              &kp F4              &kp F5                &kp F6              &kp F7              &kp F8              &kp F9              &kp F10             &kp TAB
 &kp TAB             &kp EXCL            &kp AT              &kp HASH            &kp DLLR            &kp TILDE             &auto_line_end      &kp LA(LEFT)        &kp UP              &kp LA(RIGHT)       &auto_previous_tab  &auto_next_tab
 &kp CAPS            &kp STAR            &kp C_VOL_DN        &kp C_MUTE          &kp C_VOL_UP        &kp UNDER             &auto_line_start    &kp LEFT            &kp DOWN            &kp RIGHT           &auto_back          &auto_forward
-&kp LSHFT           &kp LC(MINUS)       &kp LC(EQUAL)       &kp LC(N0)          &trans              &kp C_PLAY_PAUSE      &auto_reopen_tab    &auto_close_tab     &auto_address_bar   &none               &none               &none
+&kp LSHFT           &none               &none               &none               &trans              &kp C_PLAY_PAUSE      &auto_reopen_tab    &auto_close_tab     &auto_zoom_out      &auto_zoom_in       &none               &none
                                                             &trans              &kp LSHFT           &trans                &trans              &trans              &trans
             >;
         };

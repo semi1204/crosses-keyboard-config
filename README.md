@@ -29,6 +29,7 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 - On the Fn2 layer, the left Space/Command thumb is Shift.
 - On AUTO MOUSE, tapping S is middle click; holding S turns the right ball into a scroll wheel. U is also left click.
 - On AUTO MOUSE, the left Option thumb taps as left click (quick re-taps give double/triple click); holding it past 150 ms turns the right ball into a scroll wheel (no Option).
+- On the Fn2 layer, comma zooms out and period zooms in (Cmd -/= on Mac, Alt -/= on the Windows profile).
 - On the Fn2 layer, the left ball zooms with Cmd +/- (Alt +/- on the Windows profile) via the local `modules/scroll-keys` input processor.
 - Pointer multiplier: 1.75. Left scrolling uses a 1/32 multiplier.
 - On Manage layers, Z+X enters the left central's bootloader; C+V restarts the left central.
