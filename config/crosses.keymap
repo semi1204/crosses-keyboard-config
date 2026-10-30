@@ -66,10 +66,10 @@
 
     behaviors {
         // The Windows profile (BLE profile 1, the second slot, used by both the Windows and the Linux host)
-        // sends what the laptop's own keys send at the Mac positions: Option = LGUI, Command = LALT,
-        // Control = LCTRL, right Command = RALT. Each host remaps from there (Windows: SharpKeys LWin->Alt,
-        // LAlt->Ctrl, LCtrl->Win plus AHK Alt+arrow word moves; Linux: kanata -> Toshy), so Option, Command
-        // and Control stay distinct. Mac shortcuts with modifiers must go through a profile modifier, never a
+        // sends what the laptop's own keys send at the Mac positions: Option = LGUI, right Option = RGUI,
+        // Command = LALT, Control = LCTRL, right Command = RALT. Each host remaps from there (Windows: SharpKeys
+        // LWin->Alt, LAlt->Ctrl, LCtrl->Win plus AHK Alt+arrow word moves; Linux: kanata -> Toshy), so Option,
+        // right Option, Command and Control stay distinct. Mac shortcuts with modifiers must go through a profile modifier, never a
         // raw LA()/LG().
         auto_option: auto_option {
             compatible = "zmk,behavior-profile-modifier";
@@ -126,7 +126,7 @@
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
             windows-profile = <1>;
-            bindings = <&kp RIGHT_ALT>, <&kp LEFT_GUI>;
+            bindings = <&kp RIGHT_ALT>, <&kp RIGHT_GUI>;
             display-name = "Auto Right Alt / Alt";
         };
 
