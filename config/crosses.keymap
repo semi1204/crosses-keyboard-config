@@ -65,13 +65,12 @@
     };
 
     behaviors {
-        // The Windows profile (BLE profile 1, the second slot) is shared by the Windows and the Linux host, so
-        // every Mac modifier needs its own code: Option = LGUI, Command = LALT, right Command = RALT,
-        // Control = RGUI, right Option = F15. Windows SharpKeys turns LWin into Alt and LAlt into Ctrl, and AHK
-        // turns RWin into Ctrl and F15 into Alt (raw LCtrl would become Win, raw RCtrl is Hanja). Linux kanata
-        // maps rmet to Control and F15 to right Option. That keeps Option, right Option, Command and Control
-        // distinct on Linux while Control is plain Ctrl on Windows. Mac shortcuts with modifiers must go
-        // through a profile modifier, never a raw LA()/LG().
+        // The Windows profile (BLE profile 1, the second slot, used by both the Windows and the Linux host)
+        // sends what the laptop's own keys send at the Mac positions: Option = LGUI, Command = LALT,
+        // Control = LCTRL, right Command = RALT. Each host remaps from there (Windows: SharpKeys LWin->Alt,
+        // LAlt->Ctrl, LCtrl->Win plus AHK Alt+arrow word moves; Linux: kanata -> Toshy), so Option, Command
+        // and Control stay distinct. Mac shortcuts with modifiers must go through a profile modifier, never a
+        // raw LA()/LG().
         auto_option: auto_option {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -127,23 +126,25 @@
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
             windows-profile = <1>;
-            bindings = <&kp RIGHT_ALT>, <&kp F15>;
+            bindings = <&kp RIGHT_ALT>, <&kp LEFT_GUI>;
             display-name = "Auto Right Alt / Alt";
         };
 
+        // Control is LCTRL on both profiles.
         auto_control: auto_control {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
             windows-profile = <1>;
-            bindings = <&kp LCTRL>, <&kp RIGHT_GUI>;
+            bindings = <&kp LCTRL>, <&kp LCTRL>;
             display-name = "Auto Control";
         };
 
+        // B/Control is LCTRL on both profiles.
         auto_b: auto_b {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
             windows-profile = <1>;
-            bindings = <&mt LCTRL B>, <&mt RIGHT_GUI B>;
+            bindings = <&mt LCTRL B>, <&mt LCTRL B>;
             display-name = "Auto B / Ctrl";
         };
 
@@ -261,11 +262,12 @@
             display-name = "Sticky Option";
         };
 
+        // Control is LCTRL on both profiles.
         sticky_control: sticky_control {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
             windows-profile = <1>;
-            bindings = <&sk LCTRL>, <&sk RIGHT_GUI>;
+            bindings = <&sk LCTRL>, <&sk LCTRL>;
             display-name = "Sticky Control";
         };
 
