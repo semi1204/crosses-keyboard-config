@@ -124,6 +124,13 @@
             display-name = "Auto Right Alt / Alt";
         };
 
+        // Windows profile: Control (auto_control, auto_b) sends LEFT_ALT, the same code as Command
+        // (auto_command). The Windows host turns raw LAlt into Ctrl, so both act as Ctrl there, but no host
+        // can tell them apart: on Linux (kanata -> Toshy) both are Command, so the B thumb and X hold give
+        // Command instead of Control, and the right B thumb is indistinguishable from the left Space thumb.
+        // Same root cause as the disabled J+K combo below. Mac-like fix: send what the laptop's own keys send
+        // at those positions (Control LCTRL, Option LGUI, Command LALT) and let each host's remap handle it.
+        // See issue #1.
         auto_control: auto_control {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
