@@ -65,11 +65,12 @@
     };
 
     behaviors {
-        // The Windows profile (BLE 2, used by both the Windows and the Linux host) sends what the laptop's
-        // own keys send at the Mac positions: Option = LGUI, Command = LALT, Control = LCTRL,
-        // right Command = RALT. Each host remaps from there (Windows: SharpKeys LWin->Alt, LAlt->Ctrl,
-        // LCtrl->Win plus AHK Alt+arrow word moves; Linux: kanata -> Toshy), so Option, Command and Control
-        // stay distinct. Mac shortcuts with modifiers must go through a profile modifier, never a raw LA()/LG().
+        // The Windows profile (BLE profile 1, the second slot, used by both the Windows and the Linux host)
+        // sends what the laptop's own keys send at the Mac positions: Option = LGUI, Command = LALT,
+        // Control = LCTRL, right Command = RALT. Each host remaps from there (Windows: SharpKeys LWin->Alt,
+        // LAlt->Ctrl, LCtrl->Win plus AHK Alt+arrow word moves; Linux: kanata -> Toshy), so Option, Command
+        // and Control stay distinct. Mac shortcuts with modifiers must go through a profile modifier, never a
+        // raw LA()/LG().
         auto_option: auto_option {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -129,7 +130,7 @@
             display-name = "Auto Right Alt / Alt";
         };
 
-        // Control is LCTRL on both profiles; kept as a profile modifier so saved Studio keymaps still resolve.
+        // Control is LCTRL on both profiles.
         auto_control: auto_control {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -138,7 +139,7 @@
             display-name = "Auto Control";
         };
 
-        // B/Control is LCTRL on both profiles; kept as a profile modifier so saved Studio keymaps still resolve.
+        // B/Control is LCTRL on both profiles.
         auto_b: auto_b {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -261,7 +262,7 @@
             display-name = "Sticky Option";
         };
 
-        // Control is LCTRL on both profiles; kept as a profile modifier so saved Studio keymaps still resolve.
+        // Control is LCTRL on both profiles.
         sticky_control: sticky_control {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -286,7 +287,8 @@
             display-name = "Auto Line End";
         };
 
-        // Option+arrow word moves (AHK turns Alt+arrow into Ctrl+arrow on Windows, Toshy does the same on Linux).
+        // Option+arrow word moves (Windows: SharpKeys turns LGUI into Alt, then AHK turns Alt+arrow into Ctrl+arrow;
+        // Toshy does the same on Linux).
         auto_word_left: auto_word_left {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
@@ -747,8 +749,8 @@
             >;
         };
 
-        // Left half alone: Space thumb taps Space / holds MIRROR, Option thumb becomes Shift (D+F = Command),
-        // Fn1/Esc thumb taps Esc / holds ONE_NAV.
+        // Left half alone: Space thumb taps Space / holds MIRROR, Option thumb becomes Shift,
+        // Fn1/Esc thumb taps Esc / holds ONE_NAV. D+F stays right Command, the launcher modifier.
         one_hand {
             display-name = "ONE HAND";
             bindings = <
