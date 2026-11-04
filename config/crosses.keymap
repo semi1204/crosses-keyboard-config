@@ -88,7 +88,7 @@
         bindings = <&kp LC(N1)>, <&auto_option_slash>;
     };
 
-    // Fn1 + B right ball: flick up = F19, which Karabiner turns into the Raycast Screen OCR deeplink.
+    // Fn1 + B right ball: flick up = Option+Shift+2 (Raycast ScreenOCR hotkey).
     zip_scroll_ocr: zip_scroll_ocr {
         compatible = "zmk,input-processor-scroll-keys";
         #input-processor-cells = <0>;
@@ -389,12 +389,12 @@
             display-name = "Auto Option Slash";
         };
 
-        // Mac only: F19 is bound in Karabiner to the Raycast Screen OCR deeplink.
+        // Raycast ScreenOCR hotkey: Option+Shift+2.
         auto_screen_ocr: auto_screen_ocr {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
             windows-profile = <1>;
-            bindings = <&kp F19>, <&none>;
+            bindings = <&kp LA(LS(N2))>, <&kp LG(LS(N2))>;
             display-name = "Auto Screen OCR";
         };
 
