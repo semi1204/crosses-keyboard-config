@@ -175,12 +175,26 @@
             display-name = "Auto Control";
         };
 
+        // B follows typing like Space: within 250 ms of a key it is always B; after a pause, any key
+        // pressed while it is held is Ctrl+key at once; a long press released alone still gives B.
+        b_ctrl: b_ctrl {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <250>;
+            retro-tap;
+            bindings = <&kp>, <&kp>;
+            display-name = "Hold Control / Tap B";
+        };
+
         // B/Control is LCTRL on both profiles.
         auto_b: auto_b {
             compatible = "zmk,behavior-profile-modifier";
             #binding-cells = <0>;
             windows-profile = <1>;
-            bindings = <&mt LCTRL B>, <&mt LCTRL B>;
+            bindings = <&b_ctrl LCTRL B>, <&b_ctrl LCTRL B>;
             display-name = "Auto B / Ctrl";
         };
 
