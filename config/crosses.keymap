@@ -18,6 +18,7 @@
 #define ONE_HAND 11
 #define MIRROR 12
 #define ONE_NAV 13
+#define FN1_B 14
 
 &lt {
     flavor = "hold-preferred";
@@ -39,6 +40,19 @@
     scroll_mode {
         layers = <SCROLL_MODE>;
         input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>, <&zip_scroll_scaler 1 32>, <&zip_temp_layer AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
+    };
+
+    // Fn1 + B held: one flick up on the right ball runs Screen OCR. Listed before fn1_keys because
+    // the first override whose layer is active wins.
+    fn1_b_keys {
+        layers = <FN1_B>;
+        input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>, <&zip_scroll_scaler 1 4>, <&zip_scroll_ocr>;
+    };
+
+    // Fn1 held: the right ball is a two-way switch, one tap per flick (up = Ctrl+1, down = Option+/).
+    fn1_keys {
+        layers = <1>;
+        input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>, <&zip_scroll_scaler 1 4>, <&zip_scroll_fn1>;
     };
 };
 
@@ -62,6 +76,26 @@
         code = <INPUT_REL_WHEEL>;
         threshold = <40>;
         bindings = <&auto_zoom_in>, <&auto_zoom_out>;
+    };
+
+    // Fn1 right ball: Ctrl+1 (up) / Option+/ (down) for Screenshot X and BTT, once per flick.
+    zip_scroll_fn1: zip_scroll_fn1 {
+        compatible = "zmk,input-processor-scroll-keys";
+        #input-processor-cells = <0>;
+        code = <INPUT_REL_WHEEL>;
+        threshold = <60>;
+        one-shot-idle-ms = <300>;
+        bindings = <&kp LC(N1)>, <&auto_option_slash>;
+    };
+
+    // Fn1 + B right ball: flick up = F19, which Karabiner turns into the Raycast Screen OCR deeplink.
+    zip_scroll_ocr: zip_scroll_ocr {
+        compatible = "zmk,input-processor-scroll-keys";
+        #input-processor-cells = <0>;
+        code = <INPUT_REL_WHEEL>;
+        threshold = <60>;
+        one-shot-idle-ms = <300>;
+        bindings = <&auto_screen_ocr>, <&none>;
     };
 
     behaviors {
@@ -345,6 +379,23 @@
             windows-profile = <1>;
             bindings = <&kp LA(BSLH)>, <&kp LC(UP)>;
             display-name = "Auto Window Full";
+        };
+
+        auto_option_slash: auto_option_slash {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp LA(FSLH)>, <&kp LG(FSLH)>;
+            display-name = "Auto Option Slash";
+        };
+
+        // Mac only: F19 is bound in Karabiner to the Raycast Screen OCR deeplink.
+        auto_screen_ocr: auto_screen_ocr {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp F19>, <&none>;
+            display-name = "Auto Screen OCR";
         };
 
         layer_click: layer_click {
@@ -651,7 +702,7 @@
 &mo 5            &kp GRAVE        &kp MINUS        &kp KP_PLUS      &kp STAR         &kp FSLH           &kp LPAR         &kp LBRC         &kp LBKT         &kp N7           &kp N8           &kp N9
 &trans           &kp EXCL         &kp APOS         &none            &kp EQUAL        &kp DLLR           &kp RPAR         &kp RBRC         &kp RBKT         &kp N4           &kp N5           &kp N6
 &trans           &kp TILDE        &kp PIPE         &kp HASH         &kp AMPS         &kp BSLH           &kp COLON        &kp COMMA        &kp N0           &kp N1           &kp N2           &kp N3
-                                                   &trans           &trans           &trans             &trans           &kp RIGHT_SHIFT  &trans
+                                                   &trans           &trans           &trans             &mo FN1_B        &kp RIGHT_SHIFT  &trans
             >;
         };
 
@@ -788,6 +839,18 @@
 &trans           &auto_line_start &kp LEFT         &kp DOWN         &kp RIGHT        &auto_line_end     &trans     &trans     &trans     &trans     &trans     &trans
 &trans           &auto_undo       &auto_cut        &auto_copy       &auto_paste      &sticky_command    &trans     &trans     &trans     &trans     &trans     &trans
                                                    &trans           &trans           &trans             &trans     &trans     &trans
+            >;
+        };
+
+        // Fn1 + B held: only the right-ball override above changes; keys pass through.
+        fn1_b {
+            display-name = "FN1 B";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+                                 &trans     &trans     &trans       &trans     &trans     &trans
             >;
         };
     };

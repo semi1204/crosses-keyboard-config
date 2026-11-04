@@ -18,11 +18,14 @@ struct scroll_keys_config {
     uint8_t index;
     uint16_t code;
     int16_t threshold;
+    int32_t one_shot_idle_ms;
     struct zmk_behavior_binding bindings[2];
 };
 
 struct scroll_keys_data {
     int16_t accumulated;
+    int64_t last_event;
+    bool fired;
 };
 
 static int tap_binding(const struct scroll_keys_config *config, uint8_t i, uint8_t listener_index) {
@@ -54,6 +57,18 @@ static int scroll_keys_handle_event(const struct device *dev, struct input_event
         return ZMK_INPUT_PROC_STOP;
     }
 
+    if (config->one_shot_idle_ms > 0) {
+        const int64_t now = k_uptime_get();
+        if (now - data->last_event > config->one_shot_idle_ms) {
+            data->accumulated = 0;
+            data->fired = false;
+        }
+        data->last_event = now;
+        if (data->fired) {
+            return ZMK_INPUT_PROC_STOP;
+        }
+    }
+
     data->accumulated += event->value;
     while (abs(data->accumulated) >= config->threshold) {
         const uint8_t i = data->accumulated > 0 ? 0 : 1;
@@ -62,6 +77,12 @@ static int scroll_keys_handle_event(const struct device *dev, struct input_event
         int ret = tap_binding(config, i, state->input_device_index);
         if (ret < 0) {
             return ret;
+        }
+
+        if (config->one_shot_idle_ms > 0) {
+            data->fired = true;
+            data->accumulated = 0;
+            break;
         }
     }
 
@@ -78,6 +99,7 @@ static const struct zmk_input_processor_driver_api scroll_keys_driver_api = {
         .index = n,                                                                                \
         .code = DT_INST_PROP(n, code),                                                             \
         .threshold = DT_INST_PROP(n, threshold),                                                   \
+        .one_shot_idle_ms = DT_INST_PROP(n, one_shot_idle_ms),                                     \
         .bindings = {ZMK_KEYMAP_EXTRACT_BINDING(0, DT_DRV_INST(n)),                                \
                      ZMK_KEYMAP_EXTRACT_BINDING(1, DT_DRV_INST(n))},                               \
     };                                                                                             \

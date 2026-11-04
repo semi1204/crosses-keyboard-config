@@ -18,3 +18,9 @@ properties:
   bindings:
     type: phandle-array
     required: true
+  one-shot-idle-ms:
+    type: int
+    default: 0
+    description: |
+      When set, tap at most once per gesture: after a tap, swallow further movement
+      until no event has arrived for this many ms, which also clears the accumulator.
