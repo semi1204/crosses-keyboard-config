@@ -1,0 +1,5 @@
+if(CONFIG_ZMK_BEHAVIOR_ROLL_GUARD)
+  zephyr_library()
+  zephyr_library_include_directories(${APPLICATION_SOURCE_DIR}/include)
+  zephyr_library_sources(src/behavior_roll_guard.c)
+endif()
