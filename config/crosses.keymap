@@ -465,6 +465,9 @@
         // Space follows typing: within 250 ms of a letter it is always Space. After a pause,
         // any key pressed while it is held is Cmd+key at once (release order no longer matters),
         // and a long press released alone still gives Space (so RCmd+Space works).
+        // Q, W, H and M (13 14 30 43) are left out of hold-trigger-key-positions: rolling Space
+        // into them types Space + the letter, so typing can never quit, close, hide or minimize
+        // a window. Cmd+Q/W/H/M still work once Space has been held for 200 ms.
         space_cmd: space_cmd {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -473,6 +476,13 @@
             quick-tap-ms = <175>;
             require-prior-idle-ms = <250>;
             retro-tap;
+            hold-trigger-key-positions = <
+                 0  1  2  3  4  5  6  7  8  9 10 11
+                12       15 16 17 18 19 20 21 22 23
+                24 25 26 27 28 29    31 32 33 34 35
+                36 37 38 39 40 41 42    44 45 46 47
+                               48 49 50 51 52 53
+            >;
             bindings = <&auto_command>, <&kp>;
             display-name = "Hold Command / Tap Space";
         };
