@@ -139,13 +139,13 @@
             display-name = "Space / Shift";
         };
 
-        // retro-tap: held past 150 ms and released alone still gives Space (RCmd+Space).
+        // No retro-tap: with it ZMK holds back the layer until another key is pressed, so Fn2 + left
+        // ball (zoom) never saw the layer. Held past 150 ms it is Fn2, released alone it types nothing.
         space_fn2: space_fn2 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <150>;
-            retro-tap;
             bindings = <&mo>, <&kp>;
             display-name = "Space / Fn2";
         };
@@ -186,7 +186,7 @@
         };
 
         // B follows typing like Space: within 250 ms of a key it is always B; after a pause, any key
-        // pressed while it is held is Ctrl+key at once; a long press released alone still gives B.
+        // pressed while it is held is Ctrl+key at once; held 200 ms it is Control (wheel, clicks too).
         b_ctrl: b_ctrl {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -194,7 +194,8 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <250>;
-            retro-tap;
+            // No retro-tap: with it ZMK sends Control only once another key is pressed, so
+            // Control + wheel/click never worked. Held past 200 ms it is Control right away.
             bindings = <&kp>, <&kp>;
             display-name = "Hold Control / Tap B";
         };
@@ -483,7 +484,7 @@
 
         // Space follows typing: within 250 ms of a letter it is always Space. After a pause,
         // any key pressed while it is held is Cmd+key at once (release order no longer matters),
-        // and a long press released alone still gives Space (so RCmd+Space works).
+        // and after 200 ms it is Command even with no key (wheel, clicks); released alone it types nothing.
         // Q, W, H and M are &roll keys (modules/roll-guard): rolled into from this thumb they wait.
         // Letter released first = Cmd+letter; thumb released first = it was typing, so Space and
         // the letter are typed. That keeps typing from quitting, closing, hiding or minimizing a
@@ -509,7 +510,8 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <250>;
-            retro-tap;
+            // No retro-tap: with it ZMK sends Command only once another key is pressed, so
+            // Command + wheel/click never worked. Held past 200 ms it is Command right away.
             bindings = <&space_cmd_hold>, <&kp>;
             display-name = "Hold Command / Tap Space";
         };
