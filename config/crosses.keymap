@@ -166,6 +166,16 @@
             display-name = "Auto Right Alt / Alt";
         };
 
+        // Comma hold = dictation key. Mac: right Option (Spokenly "ropt"). Windows profile: right Super,
+        // which no other key sends, so Linux kanata can turn it into Spokenly push-to-talk.
+        auto_right_super: auto_right_super {
+            compatible = "zmk,behavior-profile-modifier";
+            #binding-cells = <0>;
+            windows-profile = <1>;
+            bindings = <&kp RIGHT_ALT>, <&kp RIGHT_GUI>;
+            display-name = "Auto Right Option / Right Super";
+        };
+
         // Control is LCTRL on both profiles.
         auto_control: auto_control {
             compatible = "zmk,behavior-profile-modifier";
@@ -437,6 +447,15 @@
             tapping-term-ms = <350>;
             bindings = <&auto_right_alt>, <&kp>;
             display-name = "Hold Right Option / Tap Key";
+        };
+
+        hold_right_super: hold_right_super {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <350>;
+            bindings = <&auto_right_super>, <&kp>;
+            display-name = "Hold Dictation (Right Super) / Tap Key";
         };
 
         // AUTO_MOUSE left thumb: tap = left click (quick re-taps for double/triple click),
@@ -722,7 +741,7 @@
 &kp ESC              &kp N1               &kp N2               &kp N3               &kp N4               &kp N5                 &kp N6               &kp N7               &kp N8               &kp N9               &kp N0               &kp BSLH
 &kp TAB              &roll Q              &roll W              &kp E                &kp R                &hold_right_alt 0 T   &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
 &kp CAPS             &kp A                &kp S                &kp D                &kp F                &kp G                  &roll H              &kp J                &kp K                &kp L                &kp SEMI             &kp ENTER
-&kp LSHFT            &kp Z                &hold_ctrl 0 X       &kp C                &kp V                &kp B                  &kp N                &roll M              &hold_right_alt 0 COMMA &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
+&kp LSHFT            &kp Z                &hold_ctrl 0 X       &kp C                &kp V                &kp B                  &kp N                &roll M              &hold_right_super 0 COMMA &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
                                                                &auto_option         &space_cmd 0 SPACE   &lt 1 ESC             &auto_b              &space_fn2 2 SPACE   &auto_right_command
             >;
         };
