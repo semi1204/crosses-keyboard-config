@@ -175,19 +175,40 @@
             display-name = "Auto Control";
         };
 
-        // B follows typing like Space: within 250 ms of a key it is always B; after a pause, any key
+        // B follows typing like Space (typing-switch, modules/roll-guard). After a pause, any key
         // pressed while it is held is Ctrl+key at once; held 200 ms it is Control (wheel, clicks too).
+        // Within 250 ms of a key it is B unless it stays down 200 ms: then it is Control, together
+        // with any key pressed meanwhile (Ctrl+C right after typing). A quick roll is always B.
         b_ctrl: b_ctrl {
+            compatible = "zmk,behavior-typing-switch";
+            #binding-cells = <2>;
+            prior-idle-ms = <250>;
+            bindings = <&b_ctrl_paused>, <&b_ctrl_typing>;
+            display-name = "Hold Control / Tap B";
+        };
+
+        b_ctrl_paused: b_ctrl_paused {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <250>;
             // No retro-tap: with it ZMK sends Control only once another key is pressed, so
             // Control + wheel/click never worked. Held past 200 ms it is Control right away.
             bindings = <&kp>, <&kp>;
-            display-name = "Hold Control / Tap B";
+            display-name = "Hold Control / Tap B (after a pause)";
+        };
+
+        // No retro-tap here either: ZMK replays keys pressed before the 200 ms without the
+        // deferred hold, so Ctrl+key would come out as the key and B.
+        b_ctrl_typing: b_ctrl_typing {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            bindings = <&kp>, <&kp>;
+            display-name = "Hold Control / Tap B (typing)";
         };
 
         // B/Control is LCTRL on both profiles.
@@ -463,9 +484,11 @@
             display-name = "Space / Mirror";
         };
 
-        // Space follows typing: within 250 ms of a letter it is always Space. After a pause,
-        // any key pressed while it is held is Cmd+key at once (release order no longer matters),
-        // and after 200 ms it is Command even with no key (wheel, clicks); released alone it types nothing.
+        // Space follows typing (typing-switch, modules/roll-guard). After a pause, any key pressed
+        // while it is held is Cmd+key at once (release order no longer matters), and after 200 ms
+        // it is Command even with no key (wheel, clicks); released alone it types nothing.
+        // Within 250 ms of a key it is Space unless it stays down 200 ms: then it is Command,
+        // together with any key pressed meanwhile (Cmd+V right after typing). A quick roll is Space.
         // Q, W, H and M are &roll keys (modules/roll-guard): rolled into from this thumb they wait.
         // Letter released first = Cmd+letter; thumb released first = it was typing, so Space and
         // the letter are typed. That keeps typing from quitting, closing, hiding or minimizing a
@@ -485,16 +508,44 @@
         };
 
         space_cmd: space_cmd {
+            compatible = "zmk,behavior-typing-switch";
+            #binding-cells = <2>;
+            prior-idle-ms = <250>;
+            bindings = <&space_cmd_paused>, <&space_cmd_typing>;
+            display-name = "Hold Command / Tap Space";
+        };
+
+        space_cmd_paused: space_cmd_paused {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <250>;
             // No retro-tap: with it ZMK sends Command only once another key is pressed, so
             // Command + wheel/click never worked. Held past 200 ms it is Command right away.
             bindings = <&space_cmd_hold>, <&kp>;
-            display-name = "Hold Command / Tap Space";
+            display-name = "Hold Command / Tap Space (after a pause)";
+        };
+
+        // No retro-tap here either: ZMK replays keys pressed before the 200 ms without the
+        // deferred hold, so Cmd+V would come out as V and Space.
+        // Q, W, H and M (13 14 30 43) are left out of the trigger keys: pressed first while
+        // typing they always type, so typing can never quit, close, hide or minimize a window.
+        space_cmd_typing: space_cmd_typing {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            hold-trigger-key-positions = <
+                 0  1  2  3  4  5  6  7  8  9 10 11
+                12       15 16 17 18 19 20 21 22 23
+                24 25 26 27 28 29    31 32 33 34 35
+                36 37 38 39 40 41 42    44 45 46 47
+                               48 49 50 51 52 53
+            >;
+            bindings = <&space_cmd_hold>, <&kp>;
+            display-name = "Hold Command / Tap Space (typing)";
         };
     };
 
@@ -663,6 +714,100 @@
             wait-ms = <40>;
             bindings = <&kp LT &kp GT &kp LEFT>;
         };
+
+        // Held 200 ms, a pair key wraps the selection instead: cut it, type the pair, paste it
+        // back between (the selection ends up on the clipboard). Tapped, it types the pair as
+        // before, which replaces a selection: the keyboard cannot see whether text is selected.
+        wrap_parens: wrap_parens {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <40>;
+            wait-ms = <40>;
+            bindings = <&auto_cut &kp LPAR &kp RPAR &kp LEFT &auto_paste>;
+        };
+        pair_or_wrap_parens: pair_or_wrap_parens {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&wrap_parens>, <&pair_parens>;
+            display-name = "Pair / Wrap parens";
+        };
+        wrap_braces: wrap_braces {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <40>;
+            wait-ms = <40>;
+            bindings = <&auto_cut &kp LBRC &kp RBRC &kp LEFT &auto_paste>;
+        };
+        pair_or_wrap_braces: pair_or_wrap_braces {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&wrap_braces>, <&pair_braces>;
+            display-name = "Pair / Wrap braces";
+        };
+        wrap_brackets: wrap_brackets {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <40>;
+            wait-ms = <40>;
+            bindings = <&auto_cut &kp LBKT &kp RBKT &kp LEFT &auto_paste>;
+        };
+        pair_or_wrap_brackets: pair_or_wrap_brackets {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&wrap_brackets>, <&pair_brackets>;
+            display-name = "Pair / Wrap brackets";
+        };
+        wrap_double_quotes: wrap_double_quotes {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <40>;
+            wait-ms = <40>;
+            bindings = <&auto_cut &kp DQT &kp DQT &kp LEFT &auto_paste>;
+        };
+        pair_or_wrap_double_quotes: pair_or_wrap_double_quotes {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&wrap_double_quotes>, <&pair_double_quotes>;
+            display-name = "Pair / Wrap double quotes";
+        };
+        wrap_single_quotes: wrap_single_quotes {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <40>;
+            wait-ms = <40>;
+            bindings = <&auto_cut &kp APOS &kp APOS &kp LEFT &auto_paste>;
+        };
+        pair_or_wrap_single_quotes: pair_or_wrap_single_quotes {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&wrap_single_quotes>, <&pair_single_quotes>;
+            display-name = "Pair / Wrap single quotes";
+        };
+        wrap_angles: wrap_angles {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <40>;
+            wait-ms = <40>;
+            bindings = <&auto_cut &kp LT &kp GT &kp LEFT &auto_paste>;
+        };
+        pair_or_wrap_angles: pair_or_wrap_angles {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&wrap_angles>, <&pair_angles>;
+            display-name = "Pair / Wrap angles";
+        };
         delete_word: delete_word {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -755,8 +900,8 @@
             display-name = "LAYER3";
             bindings = <
 &trans               &trans               &trans               &trans               &trans               &trans                 &trans               &trans               &trans               &trans               &trans               &trans
-&trans               &trans               &trans               &trans               &trans               &trans                 &trans               &pair_double_quotes  &pair_single_quotes  &kp MINUS            &kp PLUS             &trans
-&trans               &kp EXCL             &trans               &trans               &kp QMARK            &trans                 &symbol_arrow        &pair_parens         &pair_braces         &pair_brackets       &kp EQUAL            &trans
+&trans               &trans               &trans               &trans               &trans               &trans                 &trans               &pair_or_wrap_double_quotes 0 0  &pair_or_wrap_single_quotes 0 0  &kp MINUS            &kp PLUS             &trans
+&trans               &kp EXCL             &trans               &trans               &kp QMARK            &trans                 &symbol_arrow        &pair_or_wrap_parens 0 0         &pair_or_wrap_braces 0 0         &pair_or_wrap_brackets 0 0       &kp EQUAL            &trans
 &trans               &trans               &trans               &trans               &trans               &trans                 &symbol_and          &kp COLON            &symbol_or           &trans               &trans               &trans
                                                                &trans               &trans               &kp UNDER              &trans               &trans               &trans
             >;
@@ -767,7 +912,7 @@
             bindings = <
 &trans        &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans        &trans
 &trans        &trans        &kp AT        &kp HASH      &kp DLLR      &kp TILDE       &trans        &trans        &trans        &trans        &trans        &trans
-&trans        &kp STAR      &kp GRAVE     &kp EXCL      &pair_angles  &kp UNDER       &trans        &trans        &trans        &trans        &trans        &trans
+&trans        &kp STAR      &kp GRAVE     &kp EXCL      &pair_or_wrap_angles 0 0  &kp UNDER       &trans        &trans        &trans        &trans        &trans        &trans
 &trans        &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans        &trans
                                           &trans        &trans        &trans          &trans        &trans        &trans
             >;

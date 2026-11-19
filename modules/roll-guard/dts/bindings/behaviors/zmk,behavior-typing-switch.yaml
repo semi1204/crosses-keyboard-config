@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Sends a key to one of two hold-taps, chosen when it goes down: binding 0 after a pause,
+  binding 1 when a key was pressed less than prior-idle-ms ago (typing). The release goes
+  to the same hold-tap. Both hold-taps get this key's two parameters.
+compatible: "zmk,behavior-typing-switch"
+
+include: two_param.yaml
+
+properties:
+  bindings:
+    type: phandles
+    required: true
+  prior-idle-ms:
+    type: int
+    default: 250
+    description: A key pressed sooner than this before the switch goes down counts as typing.
