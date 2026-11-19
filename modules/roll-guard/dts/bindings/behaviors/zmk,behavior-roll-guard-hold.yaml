@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Hold side of a hold-tap whose keys bound to zmk,behavior-roll-guard must not fire by accident.
+  Binding 0 is the real hold (a modifier); binding 1 is what the same key types when tapped.
+compatible: "zmk,behavior-roll-guard-hold"
+
+include: zero_param.yaml
+
+properties:
+  bindings:
+    type: phandle-array
+    required: true
+  quick-ms:
+    type: int
+    default: 200
+    description: A guarded key pressed sooner than this after the hold-tap went down waits for a release.

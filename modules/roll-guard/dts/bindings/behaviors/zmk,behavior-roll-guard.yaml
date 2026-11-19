@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  A key press that waits when it is rolled into from the roll-guard hold. Released while the hold
+  is still down it is tapped under the hold; if the hold is released first, the hold's tap binding
+  and then this key are typed instead.
+compatible: "zmk,behavior-roll-guard"
+
+include: one_param.yaml

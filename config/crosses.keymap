@@ -139,13 +139,13 @@
             display-name = "Space / Shift";
         };
 
-        // retro-tap: held past 150 ms and released alone still gives Space (RCmd+Space).
+        // No retro-tap: with it ZMK holds back the layer until another key is pressed, so Fn2 + left
+        // ball (zoom) never saw the layer. Held past 150 ms it is Fn2, released alone it types nothing.
         space_fn2: space_fn2 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <150>;
-            retro-tap;
             bindings = <&mo>, <&kp>;
             display-name = "Space / Fn2";
         };
@@ -176,7 +176,7 @@
         };
 
         // B follows typing like Space: within 250 ms of a key it is always B; after a pause, any key
-        // pressed while it is held is Ctrl+key at once; a long press released alone still gives B.
+        // pressed while it is held is Ctrl+key at once; held 200 ms it is Control (wheel, clicks too).
         b_ctrl: b_ctrl {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -184,7 +184,8 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <250>;
-            retro-tap;
+            // No retro-tap: with it ZMK sends Control only once another key is pressed, so
+            // Control + wheel/click never worked. Held past 200 ms it is Control right away.
             bindings = <&kp>, <&kp>;
             display-name = "Hold Control / Tap B";
         };
@@ -464,7 +465,25 @@
 
         // Space follows typing: within 250 ms of a letter it is always Space. After a pause,
         // any key pressed while it is held is Cmd+key at once (release order no longer matters),
-        // and a long press released alone still gives Space (so RCmd+Space works).
+        // and after 200 ms it is Command even with no key (wheel, clicks); released alone it types nothing.
+        // Q, W, H and M are &roll keys (modules/roll-guard): rolled into from this thumb they wait.
+        // Letter released first = Cmd+letter; thumb released first = it was typing, so Space and
+        // the letter are typed. That keeps typing from quitting, closing, hiding or minimizing a
+        // window while a quick Cmd+W still works. After 200 ms of holding they are plain Cmd keys.
+        space_cmd_hold: space_cmd_hold {
+            compatible = "zmk,behavior-roll-guard-hold";
+            #binding-cells = <0>;
+            bindings = <&auto_command>, <&kp SPACE>;
+            quick-ms = <200>;
+            display-name = "Space/Command hold";
+        };
+
+        roll: roll {
+            compatible = "zmk,behavior-roll-guard";
+            #binding-cells = <1>;
+            display-name = "Roll-safe Key";
+        };
+
         space_cmd: space_cmd {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -472,8 +491,9 @@
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <250>;
-            retro-tap;
-            bindings = <&auto_command>, <&kp>;
+            // No retro-tap: with it ZMK sends Command only once another key is pressed, so
+            // Command + wheel/click never worked. Held past 200 ms it is Command right away.
+            bindings = <&space_cmd_hold>, <&kp>;
             display-name = "Hold Command / Tap Space";
         };
     };
@@ -702,9 +722,9 @@
             display-name = "LAYER0";
             bindings = <
 &kp ESC              &kp N1               &kp N2               &kp N3               &kp N4               &kp N5                 &kp N6               &kp N7               &kp N8               &kp N9               &kp N0               &kp BSLH
-&kp TAB              &kp Q                &kp W                &kp E                &kp R                &hold_right_alt 0 T   &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
-&kp CAPS             &kp A                &kp S                &kp D                &kp F                &kp G                  &kp H                &kp J                &kp K                &kp L                &kp SEMI             &kp ENTER
-&kp LSHFT            &kp Z                &hold_ctrl 0 X       &kp C                &kp V                &kp B                  &kp N                &kp M                &hold_right_alt 0 COMMA &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
+&kp TAB              &roll Q              &roll W              &kp E                &kp R                &hold_right_alt 0 T   &kp Y                &kp U                &kp I                &kp O                &kp P                &kp BACKSPACE
+&kp CAPS             &kp A                &kp S                &kp D                &kp F                &kp G                  &roll H              &kp J                &kp K                &kp L                &kp SEMI             &kp ENTER
+&kp LSHFT            &kp Z                &hold_ctrl 0 X       &kp C                &kp V                &kp B                  &kp N                &roll M              &hold_right_alt 0 COMMA &kp DOT              &kp FSLH             &kp RIGHT_SHIFT
                                                                &auto_option         &space_cmd 0 SPACE   &lt 1 ESC             &auto_b              &space_fn2 2 SPACE   &auto_right_command
             >;
         };
