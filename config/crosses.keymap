@@ -19,6 +19,8 @@
 #define MIRROR 12
 #define ONE_NAV 13
 #define FN1_B 14
+#define SD_OPEN 15
+#define SD_CLOSE 16
 
 &lt {
     flavor = "hold-preferred";
@@ -915,7 +917,7 @@
 &trans               &trans               &trans               &trans               &trans               &trans                 &trans               &pair_or_wrap_double_quotes 0 0  &pair_or_wrap_single_quotes 0 0  &kp MINUS            &kp PLUS             &trans
 &trans               &kp EXCL             &trans               &trans               &kp QMARK            &trans                 &symbol_arrow        &pair_or_wrap_parens 0 0         &pair_or_wrap_braces 0 0         &pair_or_wrap_brackets 0 0       &kp EQUAL            &trans
 &trans               &trans               &trans               &trans               &trans               &trans                 &symbol_and          &kp COLON            &symbol_or           &trans               &trans               &trans
-                                                               &trans               &trans               &kp UNDER              &trans               &trans               &trans
+                                                               &trans               &trans               &kp UNDER              &mo SD_OPEN          &mo SD_CLOSE         &trans
             >;
         };
 
@@ -1041,6 +1043,28 @@
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
+                                 &trans     &trans     &trans       &trans     &trans     &trans
+            >;
+        };
+        // S+D + right B thumb: one opening bracket on the keys that give the pair on S+D.
+        sd_open {
+            display-name = "SD OPEN";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp LPAR   &kp LBRC   &kp LBKT   &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+                                 &trans     &trans     &trans       &trans     &trans     &trans
+            >;
+        };
+        // S+D + right Space thumb: one closing bracket.
+        sd_close {
+            display-name = "SD CLOSE";
+            bindings = <
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp RPAR   &kp RBRC   &kp RBKT   &trans     &trans
+&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
                                  &trans     &trans     &trans       &trans     &trans     &trans
             >;
         };
