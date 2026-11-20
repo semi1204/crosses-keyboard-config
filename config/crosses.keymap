@@ -913,7 +913,7 @@
             bindings = <
 &trans               &trans               &trans               &trans               &trans               &trans                 &trans               &trans               &trans               &trans               &trans               &trans
 &trans               &trans               &trans               &trans               &trans               &trans                 &trans               &pair_or_wrap_double_quotes 0 0  &pair_or_wrap_single_quotes 0 0  &kp MINUS            &kp PLUS             &trans
-&trans               &kp EXCL             &trans               &trans               &kp QMARK            &trans                 &symbol_arrow        &pair_or_wrap_parens 0 0         &pair_or_wrap_braces 0 0         &pair_or_wrap_brackets 0 0       &kp EQUAL            &trans
+&trans               &kp EXCL             &trans               &trans               &kp QMARK            &trans                 &pair_or_wrap_parens 0 0         &pair_or_wrap_braces 0 0         &pair_or_wrap_brackets 0 0       &symbol_arrow        &kp EQUAL            &trans
 &trans               &trans               &trans               &trans               &trans               &trans                 &symbol_and          &kp COLON            &symbol_or           &trans               &trans               &trans
                                                                &trans               &trans               &kp UNDER              &trans               &trans               &trans
             >;
