@@ -27,9 +27,10 @@ These pin assignments describe the tested PCB revision. GPIO numbers above are r
 - Sofle combos, macros and window-management layers are retained. D+F is right Command, the app-launcher modifier on every host (Karabiner right Command, Windows RAlt to RCtrl, Linux RAlt hold).
 - Right trackball movement enables AUTO MOUSE for 1000 ms; S/F become middle/left click (D always types d); the Command thumb stays Command for modified clicks. The ball has to move about 0.8 mm (40 counts net within 200 ms, `modules/motion-gate`) before AUTO MOUSE turns on, so jitter from bumping the keyboard doesn't turn the next F into a click.
 - On the Fn2 layer, the left Space/Command thumb is Shift.
-- On the Fn2 layer, 9/0 are Back/Forward and semicolon is line end (Cmd+Right on Mac, End on the Windows profile), matching Caps+; in the Linux kanata nav layer. H is line start; Enter passes through.
+- On the Fn2 layer, 9/0 are Back/Forward and semicolon is line end (Cmd+Right on Mac, End on the Windows profile), matching Caps+; in the Linux kanata nav layer. H is line start; the Enter position types ' (" with the left Space/Command thumb, which is Shift on Fn2).
 - On AUTO MOUSE, tapping S is middle click; holding S turns the right ball into a scroll wheel. U is also left click.
 - On AUTO MOUSE, the left Option thumb taps as left click (quick re-taps give double/triple click); holding it past 150 ms turns the right ball into a scroll wheel (no Option).
+- Holding S+D gives the pairs `()` `{}` `[]` on J/K/L. Adding the right B thumb types only the opening one `(` `{` `[` on the same keys, the right Space thumb only the closing one `)` `}` `]`.
 - Pair keys (`()` `{}` `[]` `""` `''` `<>`): tapped they type the pair with the cursor between, which replaces a selection. Held 200 ms they wrap the selection instead (cut, pair, paste back between; the selection is left on the clipboard).
 - On the Fn2 layer, comma zooms out and period zooms in (Cmd -/= on Mac, Alt -/= on the Windows profile).
 - On the Fn2 layer, the left ball zooms with Cmd +/- (Alt +/- on the Windows profile) via the local `modules/scroll-keys` input processor.
