@@ -1,0 +1,6 @@
+# Wraps ZMK's temp-layer processor, which exists on the central half only.
+config ZMK_INPUT_PROCESSOR_MOTION_GATE
+	bool
+	default y
+	depends on DT_HAS_ZMK_INPUT_PROCESSOR_MOTION_GATE_ENABLED
+	depends on ZMK_INPUT_PROCESSOR_TEMP_LAYER

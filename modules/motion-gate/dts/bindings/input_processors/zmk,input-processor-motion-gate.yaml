@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Passes pointer movement on to another processor (normally zip_temp_layer) only
+  once the ball has really moved: the net X/Y travel inside `window-ms` must reach
+  `threshold`. Small back-and-forth jitter from bumping the keyboard never gets
+  there. The pointer itself still moves, because every event continues down the
+  chain. While the target layer (param1) is already active, everything is passed
+  on so the layer keeps its timeout. Both params are handed to the target as-is.
+compatible: "zmk,input-processor-motion-gate"
+
+include: ip_two_param.yaml
+
+properties:
+  target:
+    type: phandle
+    required: true
+  threshold:
+    type: int
+    required: true
+    description: Net |dx| + |dy| (after earlier processors in the chain) that opens the gate.
+  window-ms:
+    type: int
+    default: 200
+    description: |
+      Movement has to reach the threshold within this many ms. The gate also
+      closes again once no movement has arrived for this long.
