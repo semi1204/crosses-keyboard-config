@@ -25,16 +25,17 @@
     tapping-term-ms = <150>;
 };
 
-// Moving the right (pointer) trackball turns on AUTO_MOUSE for 1000 ms after the last movement.
-// Any key other than excluded-positions turns it off immediately.
+// Moving the right (pointer) trackball turns on AUTO_MOUSE for 1000 ms after the last movement,
+// but only once it has really moved (zip_motion_gate below), so bumping the keyboard doesn't turn
+// F/S/U into clicks. Any key other than excluded-positions turns it off immediately.
 &zip_temp_layer {
     require-prior-idle-ms = <300>;
-    excluded-positions = <19 26 27 28 36 38 48 49>;
+    excluded-positions = <19 26 28 36 38 48 49>;
 };
 
 // Right ball = pointer: x1.75 (stock cpi 700 felt slow).
 &trackball_central_listener {
-    input-processors = <&zip_xy_scaler 7 4>, <&zip_temp_layer AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
+    input-processors = <&zip_xy_scaler 7 4>, <&zip_motion_gate AUTO_MOUSE 1000>, <&zip_ble_report_rate_limit>;
 
     // Holding S or the left Option thumb on AUTO_MOUSE turns the right ball into a scroll wheel.
     scroll_mode {
@@ -69,6 +70,17 @@
 
 / {
     chosen { zmk,physical-layout = &gggw_crosses_54_layout; };
+
+    // Right ball: AUTO_MOUSE only after 40 counts (after x1.75, about 0.8 mm of ball travel) of net
+    // movement within 200 ms. Jitter from shaking goes back and forth and never adds up to that.
+    // The pointer still moves either way. Raise threshold if stray clicks remain.
+    zip_motion_gate: zip_motion_gate {
+        compatible = "zmk,input-processor-motion-gate";
+        #input-processor-cells = <2>;
+        target = <&zip_temp_layer>;
+        threshold = <40>;
+        window-ms = <200>;
+    };
 
     zip_scroll_zoom: zip_scroll_zoom {
         compatible = "zmk,input-processor-scroll-keys";
@@ -967,7 +979,7 @@
             bindings = <
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &mkp LCLK  &trans     &trans     &trans     &trans
-&trans     &trans     &layer_click SCROLL_MODE MCLK  &mkp RCLK  &mkp LCLK  &trans       &trans     &trans     &trans     &trans     &trans     &trans
+&trans     &trans     &layer_click SCROLL_MODE MCLK  &trans     &mkp LCLK  &trans       &trans     &trans     &trans     &trans     &trans     &trans
 &trans     &trans     &trans     &trans     &trans     &trans       &trans     &trans     &trans     &trans     &trans     &trans
                                  &scroll_click SCROLL_MODE LCLK  &trans     &trans       &trans     &trans     &trans
             >;
